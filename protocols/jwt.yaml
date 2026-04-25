@@ -1,0 +1,25 @@
+protocol: jwt
+description: JWT, JWS, and JWE header claims and algorithm identifiers
+version: "1"
+tokens:
+  - EdDSA
+  - ES256
+  - HS256
+  - JWE
+  - JWK
+  - JWKS
+  - JWS
+  - JWT
+  - RS256
+  - RS384
+  - RS512
+  - alg
+  - aud
+  - exp
+  - iat
+  - iss
+  - jti
+  - kid
+  - nbf
+  - sub
+  - typ

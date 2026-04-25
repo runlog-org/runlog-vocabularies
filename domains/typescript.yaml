@@ -1,0 +1,34 @@
+domain: typescript
+description: TypeScript-specific keywords and utility types (use alongside javascript domain)
+version: "1"
+tokens:
+  - Array
+  - Awaited
+  - Map
+  - Omit
+  - Partial
+  - Pick
+  - Promise
+  - ReadonlyArray
+  - Readonly
+  - Record
+  - Required
+  - Set
+  - abstract
+  - any
+  - enum
+  - implements
+  - infer
+  - interface
+  - keyof
+  - namespace
+  - never
+  - private
+  - protected
+  - public
+  - readonly
+  - static
+  - type
+  - typeof
+  - unknown
+  - void
