@@ -16,6 +16,10 @@ Community-PR'd. Each domain folder includes a `provenance.md` documenting how th
 - `protocols/{http,smtp,…}/` — protocol-wide constants (status codes, header names)
 - `scripts/` — extractors that regenerate domain files from upstream documentation
 
+## Scope Registry
+
+`scope-registry.yaml` (this directory, top level) is the authoritative list of every domain tag the platform considers "public" for the purposes of `runlog_submit`'s scope rule.  It is consumed exclusively by `server/src/runlog/sanitize/scope.py`, which exposes the `is_public_domain` / `validate_domains` / `filter_public` API used by the MCP tool layer.  Adding a new public-domain tag is a data-only PR to this file — no Python edit required.
+
 ## Contributing
 
 A new domain needs: a reproducible extractor (`scripts/generate-<domain>.sh`), a provenance note, and a pinned upstream version. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).

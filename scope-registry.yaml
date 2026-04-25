@@ -1,0 +1,693 @@
+# Public-domain registry — every tag the runlog_submit scope rule accepts.
+# One entry per tag. Adding a tag here is a data-only PR; no code change.
+#
+# Schema:
+#   - tag (str, required, lowercase, kebab-case): the canonical tag name.
+#   - description (str, required, one short sentence): what kind of system
+#     this tag covers; used for human review of new submissions.
+#   - category (str, required): one of: language | runtime | framework |
+#     database | cloud | tooling | protocol | saas | concept | other.
+#
+# Sorted alphabetically by tag.
+
+version: "1"
+
+domains:
+  - tag: acme
+    category: protocol
+    description: "ACME (Automatic Certificate Management Environment) — RFC 8555 protocol for automated TLS certificate issuance."
+  - tag: actix
+    category: framework
+    description: "Actix — high-performance actor-based web framework for Rust."
+  - tag: airtable
+    category: saas
+    description: "Airtable — cloud-based spreadsheet-database hybrid SaaS API."
+  - tag: alpine
+    category: cloud
+    description: "Alpine Linux — minimal Linux distribution commonly used as a container base image."
+  - tag: angular
+    category: framework
+    description: "Angular — TypeScript-based front-end web framework maintained by Google."
+  - tag: apache
+    category: tooling
+    description: "Apache HTTP Server — widely-deployed open-source web server."
+  - tag: api
+    category: concept
+    description: "API — general concept covering public application programming interface design and usage."
+  - tag: app-router
+    category: concept
+    description: "App Router — Next.js file-system-based routing architecture introduced in Next.js 13."
+  - tag: arrow
+    category: database
+    description: "Apache Arrow — in-memory columnar data format and cross-language analytics library."
+  - tag: async
+    category: concept
+    description: "Async — general concept covering asynchronous programming patterns and concurrency models."
+  - tag: asyncio
+    category: framework
+    description: "asyncio — Python's standard-library asynchronous I/O framework and event loop."
+  - tag: aws
+    category: cloud
+    description: "Amazon Web Services — cloud computing platform by Amazon."
+  - tag: axum
+    category: framework
+    description: "Axum — ergonomic, modular web framework for Rust built on Tokio and Tower."
+  - tag: azure
+    category: cloud
+    description: "Microsoft Azure — cloud computing platform by Microsoft."
+  - tag: base64
+    category: protocol
+    description: "Base64 — binary-to-text encoding scheme defined in RFC 4648."
+  - tag: bash
+    category: language
+    description: "Bash — GNU Bourne-Again SHell scripting language."
+  - tag: bazel
+    category: tooling
+    description: "Bazel — open-source, multi-language build and test automation tool from Google."
+  - tag: bitbucket
+    category: tooling
+    description: "Bitbucket — Atlassian-hosted Git repository service."
+  - tag: browser-security
+    category: concept
+    description: "Browser security — concepts covering the browser security model, sandboxing, and web security policies."
+  - tag: buildkit
+    category: tooling
+    description: "BuildKit — next-generation Docker image build toolkit with improved caching and parallelism."
+  - tag: bulk-operations
+    category: concept
+    description: "Bulk operations — patterns for efficient batch processing of large numbers of records."
+  - tag: bun
+    category: runtime
+    description: "Bun — fast all-in-one JavaScript runtime, bundler, and package manager."
+  - tag: c
+    category: language
+    description: "C — general-purpose compiled programming language."
+  - tag: cache-control
+    category: protocol
+    description: "Cache-Control — HTTP caching directive header defined in RFC 7234."
+  - tag: caddy
+    category: tooling
+    description: "Caddy — automatic-HTTPS web server and reverse proxy."
+  - tag: cargo
+    category: tooling
+    description: "Cargo — official package manager and build tool for Rust."
+  - tag: cassandra
+    category: database
+    description: "Apache Cassandra — distributed wide-column NoSQL database designed for high availability."
+  - tag: certbot
+    category: tooling
+    description: "Certbot — EFF's ACME client for automatically obtaining and renewing Let's Encrypt certificates."
+  - tag: clickhouse
+    category: database
+    description: "ClickHouse — open-source column-oriented OLAP database management system."
+  - tag: clojure
+    category: language
+    description: "Clojure — dynamic, functional Lisp dialect running on the JVM."
+  - tag: cloudflare
+    category: cloud
+    description: "Cloudflare — CDN, DDoS mitigation, DNS, and edge computing platform."
+  - tag: cloudformation
+    category: cloud
+    description: "AWS CloudFormation — infrastructure-as-code service for provisioning AWS resources."
+  - tag: cmake
+    category: tooling
+    description: "CMake — cross-platform build system generator for C, C++, and other compiled languages."
+  - tag: composer
+    category: tooling
+    description: "Composer — dependency manager for PHP projects."
+  - tag: concurrency
+    category: concept
+    description: "Concurrency — concept covering parallel execution, thread safety, and synchronization primitives."
+  - tag: configuration
+    category: concept
+    description: "Configuration — patterns for managing application settings, environment variables, and config files."
+  - tag: consistency
+    category: concept
+    description: "Consistency — distributed-systems concept covering data consistency models and guarantees."
+  - tag: consul
+    category: database
+    description: "HashiCorp Consul — service mesh and distributed key-value store for service discovery."
+  - tag: containerd
+    category: tooling
+    description: "containerd — industry-standard container runtime used as the engine beneath Docker and Kubernetes."
+  - tag: cookies
+    category: protocol
+    description: "Cookies — HTTP state management mechanism defined in RFC 6265."
+  - tag: cors
+    category: protocol
+    description: "CORS (Cross-Origin Resource Sharing) — W3C mechanism controlling cross-origin HTTP requests from browsers."
+  - tag: cpp
+    category: language
+    description: "C++ — general-purpose compiled programming language with object-oriented and generic features."
+  - tag: cron
+    category: protocol
+    description: "Cron — Unix time-based job scheduling syntax and daemon."
+  - tag: cross-region-replication
+    category: concept
+    description: "Cross-region replication — strategy for asynchronously replicating data across geographically distributed regions."
+  - tag: csharp
+    category: language
+    description: "C# — statically typed, multi-paradigm programming language by Microsoft on .NET."
+  - tag: csp
+    category: protocol
+    description: "Content Security Policy — W3C HTTP response header for mitigating XSS and data-injection attacks."
+  - tag: csrf
+    category: protocol
+    description: "CSRF (Cross-Site Request Forgery) — web security attack pattern and the token-based mitigation strategy."
+  - tag: cursor-semantics
+    category: concept
+    description: "Cursor semantics — pagination and result-set traversal pattern using opaque position tokens."
+  - tag: dart
+    category: language
+    description: "Dart — client-optimized programming language by Google, primary language for Flutter."
+  - tag: debian
+    category: cloud
+    description: "Debian — community-maintained Linux distribution known for stability and wide package availability."
+  - tag: deno
+    category: runtime
+    description: "Deno — secure JavaScript and TypeScript runtime built on V8."
+  - tag: digitalocean
+    category: cloud
+    description: "DigitalOcean — cloud infrastructure provider offering VMs, managed databases, and app hosting."
+  - tag: discord
+    category: saas
+    description: "Discord — real-time messaging and community platform with a public bot/webhook API."
+  - tag: django
+    category: framework
+    description: "Django — high-level Python web framework following the batteries-included philosophy."
+  - tag: dns
+    category: protocol
+    description: "DNS (Domain Name System) — hierarchical distributed naming system mapping hostnames to IP addresses."
+  - tag: docker
+    category: tooling
+    description: "Docker — container build, distribution, and runtime platform."
+  - tag: dockerfile
+    category: tooling
+    description: "Dockerfile — declarative build-instruction file for Docker container images."
+  - tag: dotnet
+    category: language
+    description: ".NET — Microsoft cross-platform developer framework covering C#, F#, and VB."
+  - tag: dotnet-core
+    category: framework
+    description: ".NET Core — open-source, cross-platform subset of the .NET framework for modern application development."
+  - tag: dynamodb
+    category: database
+    description: "Amazon DynamoDB — fully managed, serverless key-value and document NoSQL database on AWS."
+  - tag: echo
+    category: framework
+    description: "Echo — high-performance, minimalist Go web framework."
+  - tag: elasticsearch
+    category: database
+    description: "Elasticsearch — distributed, RESTful search and analytics engine based on Apache Lucene."
+  - tag: elixir
+    category: language
+    description: "Elixir — functional, concurrent language running on the Erlang VM (BEAM)."
+  - tag: envoy
+    category: tooling
+    description: "Envoy — open-source edge and service proxy designed for cloud-native applications."
+  - tag: erlang
+    category: language
+    description: "Erlang — concurrent, fault-tolerant functional language and runtime (BEAM)."
+  - tag: esbuild
+    category: tooling
+    description: "esbuild — extremely fast JavaScript and TypeScript bundler and minifier."
+  - tag: etcd
+    category: database
+    description: "etcd — distributed, reliable key-value store used as the backing store for Kubernetes."
+  - tag: express
+    category: framework
+    description: "Express.js — minimal and flexible Node.js web application framework."
+  - tag: fastapi
+    category: framework
+    description: "FastAPI — modern, high-performance Python web framework for building APIs with standard type hints."
+  - tag: fastify
+    category: framework
+    description: "Fastify — fast and low-overhead Node.js web framework with a schema-based approach."
+  - tag: filesystem
+    category: concept
+    description: "Filesystem — OS-level abstraction for organizing and accessing files and directories."
+  - tag: flask
+    category: framework
+    description: "Flask — lightweight Python WSGI web framework following a microframework philosophy."
+  - tag: ftp
+    category: protocol
+    description: "FTP (File Transfer Protocol) — network protocol for transferring files between hosts."
+  - tag: gcp
+    category: cloud
+    description: "Google Cloud Platform — cloud computing services offered by Google."
+  - tag: gem
+    category: tooling
+    description: "RubyGems gem — Ruby package management system and the packages it distributes."
+  - tag: gin
+    category: framework
+    description: "Gin — high-performance HTTP web framework for Go."
+  - tag: git
+    category: tooling
+    description: "Git — distributed version control system."
+  - tag: github
+    category: tooling
+    description: "GitHub — hosted Git repository service with issue tracking, CI, and collaborative tooling."
+  - tag: gitlab
+    category: tooling
+    description: "GitLab — self-hosted or SaaS DevOps platform providing Git hosting and CI/CD."
+  - tag: go
+    category: language
+    description: "Go (Golang) — statically typed, compiled language designed at Google for systems and server-side software."
+  - tag: goroutine
+    category: concept
+    description: "Goroutine — Go's lightweight concurrency primitive managed by the Go runtime scheduler."
+  - tag: gradle
+    category: tooling
+    description: "Gradle — flexible, performance-oriented build automation tool for JVM and Android projects."
+  - tag: graphql
+    category: protocol
+    description: "GraphQL — query language for APIs and runtime for executing those queries against your data."
+  - tag: graphql-api
+    category: concept
+    description: "GraphQL API — implementation patterns and best practices for building and consuming GraphQL endpoints."
+  - tag: grpc
+    category: protocol
+    description: "gRPC — high-performance, open-source RPC framework using Protocol Buffers by Google."
+  - tag: haproxy
+    category: tooling
+    description: "HAProxy — high-availability TCP and HTTP load balancer and proxy server."
+  - tag: haskell
+    category: language
+    description: "Haskell — purely functional, statically typed programming language with lazy evaluation."
+  - tag: helm
+    category: tooling
+    description: "Helm — Kubernetes package manager for defining, installing, and upgrading applications."
+  - tag: hetzner
+    category: cloud
+    description: "Hetzner — German cloud provider offering dedicated servers, VMs, and object storage."
+  - tag: history-rewriting
+    category: concept
+    description: "History rewriting — Git operations that alter commit history such as rebase, amend, and force-push."
+  - tag: hono
+    category: framework
+    description: "Hono — lightweight, ultra-fast web framework for edge runtimes and Cloudflare Workers."
+  - tag: hsts
+    category: protocol
+    description: "HSTS (HTTP Strict Transport Security) — security policy mechanism forcing HTTPS connections."
+  - tag: http
+    category: protocol
+    description: "HTTP (HyperText Transfer Protocol) — application-layer protocol for distributed, hypermedia information systems."
+  - tag: https
+    category: protocol
+    description: "HTTPS — HTTP over TLS/SSL providing authenticated and encrypted communication."
+  - tag: hubspot
+    category: saas
+    description: "HubSpot — CRM and inbound marketing SaaS platform with a public REST API."
+  - tag: iam
+    category: cloud
+    description: "IAM (Identity and Access Management) — AWS service and general concept for managing access to cloud resources."
+  - tag: imap
+    category: protocol
+    description: "IMAP (Internet Message Access Protocol) — email retrieval protocol defined in RFC 3501."
+  - tag: import
+    category: concept
+    description: "Import — module/package import system patterns across programming languages."
+  - tag: indexing
+    category: concept
+    description: "Indexing — database and search-engine technique for improving query performance via pre-computed lookups."
+  - tag: iptables
+    category: tooling
+    description: "iptables — Linux kernel firewall administration tool for packet filtering and NAT."
+  - tag: ipv4
+    category: protocol
+    description: "IPv4 — Internet Protocol version 4 addressing and routing."
+  - tag: ipv6
+    category: protocol
+    description: "IPv6 — Internet Protocol version 6 with 128-bit addressing."
+  - tag: iso8601
+    category: protocol
+    description: "ISO 8601 — international standard for date and time representation."
+  - tag: istio
+    category: tooling
+    description: "Istio — open-source service mesh providing traffic management, security, and observability for microservices."
+  - tag: java
+    category: language
+    description: "Java — class-based, object-oriented programming language running on the JVM."
+  - tag: javascript
+    category: language
+    description: "JavaScript — high-level, dynamic scripting language for web browsers and Node.js."
+  - tag: jira
+    category: saas
+    description: "Jira — Atlassian project tracking and issue management SaaS platform."
+  - tag: julia
+    category: language
+    description: "Julia — high-performance dynamic programming language for technical and scientific computing."
+  - tag: jwt
+    category: protocol
+    description: "JWT (JSON Web Token) — compact, URL-safe token format defined in RFC 7519."
+  - tag: kafka
+    category: database
+    description: "Apache Kafka — distributed event-streaming platform for high-throughput message queues."
+  - tag: kotlin
+    category: language
+    description: "Kotlin — statically typed JVM language designed for conciseness and Java interoperability."
+  - tag: kubernetes
+    category: cloud
+    description: "Kubernetes — open-source container orchestration system for automating deployment and scaling."
+  - tag: lambda
+    category: cloud
+    description: "AWS Lambda — serverless compute service that runs code in response to events."
+  - tag: laravel
+    category: framework
+    description: "Laravel — expressive PHP web framework following MVC conventions."
+  - tag: lets-encrypt
+    category: saas
+    description: "Let's Encrypt — free, automated, open certificate authority providing TLS certificates."
+  - tag: linear
+    category: saas
+    description: "Linear — streamlined project management and issue tracking SaaS for software teams."
+  - tag: linode
+    category: cloud
+    description: "Linode (Akamai Cloud) — cloud infrastructure provider offering VMs and managed services."
+  - tag: linux
+    category: cloud
+    description: "Linux — open-source Unix-like operating system kernel and associated distributions."
+  - tag: lua
+    category: language
+    description: "Lua — lightweight, embeddable scripting language widely used in game engines and embedded systems."
+  - tag: mailgun
+    category: saas
+    description: "Mailgun — transactional email delivery SaaS with a REST API."
+  - tag: make
+    category: tooling
+    description: "Make — classic Unix build automation tool driven by a Makefile."
+  - tag: mariadb
+    category: database
+    description: "MariaDB — open-source relational database forked from MySQL."
+  - tag: maven
+    category: tooling
+    description: "Apache Maven — build automation and dependency management tool for Java projects."
+  - tag: mime
+    category: protocol
+    description: "MIME (Multipurpose Internet Mail Extensions) — internet standard for media type identification."
+  - tag: mongodb
+    category: database
+    description: "MongoDB — open-source document-oriented NoSQL database."
+  - tag: mpsc
+    category: concept
+    description: "MPSC (Multiple-Producer Single-Consumer) — channel pattern for thread/task communication in Rust and Go."
+  - tag: mutex
+    category: concept
+    description: "Mutex — mutual-exclusion synchronization primitive for protecting shared state across threads."
+  - tag: mysql
+    category: database
+    description: "MySQL — open-source relational database management system."
+  - tag: nats
+    category: database
+    description: "NATS — lightweight, high-performance cloud-native messaging system."
+  - tag: nestjs
+    category: framework
+    description: "NestJS — progressive Node.js framework for building scalable server-side applications with TypeScript."
+  - tag: nextjs
+    category: framework
+    description: "Next.js — React framework for full-stack web applications with SSR, SSG, and the App Router."
+  - tag: nginx
+    category: tooling
+    description: "Nginx — high-performance web server, reverse proxy, and load balancer."
+  - tag: nim
+    category: language
+    description: "Nim — statically typed compiled systems programming language with Python-like syntax."
+  - tag: nodejs
+    category: runtime
+    description: "Node.js — JavaScript runtime built on V8 for server-side and CLI applications."
+  - tag: notion
+    category: saas
+    description: "Notion — all-in-one workspace and documentation SaaS with a public API."
+  - tag: npm
+    category: tooling
+    description: "npm — Node.js package manager and registry."
+  - tag: oauth2
+    category: protocol
+    description: "OAuth 2.0 — authorization framework defined in RFC 6749 for delegated access."
+  - tag: objective-c
+    category: language
+    description: "Objective-C — reflective, object-oriented language used for macOS and iOS development."
+  - tag: ocaml
+    category: language
+    description: "OCaml — functional, imperative, and object-oriented language with a strong type system."
+  - tag: oidc
+    category: protocol
+    description: "OpenID Connect — identity layer on top of OAuth 2.0 for federated authentication."
+  - tag: parquet
+    category: database
+    description: "Apache Parquet — columnar storage file format optimized for analytics workloads."
+  - tag: paypal
+    category: saas
+    description: "PayPal — online payment platform and SaaS API for payment processing."
+  - tag: perl
+    category: language
+    description: "Perl — high-level, general-purpose scripting language known for text processing."
+  - tag: phoenix
+    category: framework
+    description: "Phoenix — productive and reliable web framework for Elixir."
+  - tag: php
+    category: language
+    description: "PHP — widely-used server-side scripting language designed for web development."
+  - tag: pip
+    category: tooling
+    description: "pip — default package installer for Python."
+  - tag: pipx
+    category: tooling
+    description: "pipx — tool for installing and running Python CLI applications in isolated environments."
+  - tag: pkce
+    category: protocol
+    description: "PKCE (Proof Key for Code Exchange) — OAuth 2.0 extension defined in RFC 7636 for public clients."
+  - tag: pnpm
+    category: tooling
+    description: "pnpm — fast, disk-space-efficient package manager for Node.js."
+  - tag: podman
+    category: tooling
+    description: "Podman — daemonless, rootless container engine compatible with Docker CLI."
+  - tag: poetry
+    category: tooling
+    description: "Poetry — dependency management and packaging tool for Python projects."
+  - tag: policy-evaluation
+    category: concept
+    description: "Policy evaluation — concept covering rule-based access control and authorization policy engines."
+  - tag: postgres
+    category: database
+    description: "PostgreSQL (postgres) — open-source object-relational database system."
+  - tag: postgresql
+    category: database
+    description: "PostgreSQL — advanced open-source relational database with extensive SQL compliance and extensions."
+  - tag: protobuf
+    category: protocol
+    description: "Protocol Buffers (protobuf) — Google's language-neutral binary serialization format."
+  - tag: pulumi
+    category: tooling
+    description: "Pulumi — infrastructure-as-code SDK using general-purpose programming languages."
+  - tag: python
+    category: language
+    description: "Python — high-level, dynamically typed programming language emphasizing readability."
+  - tag: pyyaml
+    category: framework
+    description: "PyYAML — Python library for parsing and emitting YAML."
+  - tag: r
+    category: language
+    description: "R — statistical computing and graphics programming language."
+  - tag: rabbitmq
+    category: database
+    description: "RabbitMQ — open-source message broker supporting AMQP and other messaging protocols."
+  - tag: rails
+    category: framework
+    description: "Ruby on Rails — convention-over-configuration web framework for Ruby."
+  - tag: rate-limiting
+    category: concept
+    description: "Rate limiting — technique for controlling the rate of requests to an API or service."
+  - tag: react
+    category: framework
+    description: "React — JavaScript library for building user interfaces with a component model."
+  - tag: redis
+    category: database
+    description: "Redis — in-memory data structure store used as a cache, message broker, and database."
+  - tag: regex
+    category: protocol
+    description: "Regex (Regular Expressions) — formal pattern-matching syntax for strings."
+  - tag: resend
+    category: saas
+    description: "Resend — developer-focused transactional email SaaS with a simple REST API."
+  - tag: resource-quantities
+    category: concept
+    description: "Resource quantities — Kubernetes concept for specifying CPU and memory limits and requests."
+  - tag: rest
+    category: protocol
+    description: "REST (Representational State Transfer) — architectural style for distributed hypermedia systems."
+  - tag: rest-api
+    category: concept
+    description: "REST API — implementation patterns and conventions for building RESTful HTTP APIs."
+  - tag: rfc-6749
+    category: protocol
+    description: "RFC 6749 — IETF specification defining the OAuth 2.0 authorization framework."
+  - tag: rfc-7636
+    category: protocol
+    description: "RFC 7636 — IETF specification defining PKCE (Proof Key for Code Exchange) for OAuth 2.0."
+  - tag: rollup
+    category: tooling
+    description: "Rollup — JavaScript module bundler optimized for ES module output."
+  - tag: ruby
+    category: language
+    description: "Ruby — dynamic, object-oriented scripting language emphasizing simplicity and productivity."
+  - tag: rust
+    category: language
+    description: "Rust — systems programming language focused on memory safety and performance."
+  - tag: s3
+    category: cloud
+    description: "Amazon S3 — scalable object storage service from AWS and the de-facto S3-compatible API standard."
+  - tag: saml
+    category: protocol
+    description: "SAML (Security Assertion Markup Language) — XML-based standard for federated identity and SSO."
+  - tag: scala
+    category: language
+    description: "Scala — statically typed JVM language combining object-oriented and functional programming."
+  - tag: scan
+    category: concept
+    description: "Scan — iterative full-table or key-range traversal pattern in databases and key-value stores."
+  - tag: security
+    category: concept
+    description: "Security — general concept covering application security principles, threat modeling, and hardening."
+  - tag: sendgrid
+    category: saas
+    description: "SendGrid — cloud-based transactional and marketing email delivery SaaS platform."
+  - tag: shell
+    category: language
+    description: "Shell — generic POSIX shell scripting (sh-compatible scripts not tied to a specific shell)."
+  - tag: shopify
+    category: saas
+    description: "Shopify — e-commerce SaaS platform with a public REST and GraphQL API."
+  - tag: shopware
+    category: saas
+    description: "Shopware — open-source e-commerce platform with a public API used by European merchants."
+  - tag: shopware6
+    category: saas
+    description: "Shopware 6 — the Symfony-based major release series of the Shopware e-commerce platform."
+  - tag: slack
+    category: saas
+    description: "Slack — business messaging SaaS platform with a public Bot, Events, and Web API."
+  - tag: smtp
+    category: protocol
+    description: "SMTP (Simple Mail Transfer Protocol) — standard protocol for email transmission."
+  - tag: sns
+    category: cloud
+    description: "Amazon SNS — fully managed pub/sub messaging service on AWS."
+  - tag: spring
+    category: framework
+    description: "Spring Framework — comprehensive Java application framework for enterprise software development."
+  - tag: sql
+    category: concept
+    description: "SQL (Structured Query Language) — standard language for relational database query and manipulation."
+  - tag: sqlite
+    category: database
+    description: "SQLite — self-contained, serverless, transactional SQL database engine."
+  - tag: sqs
+    category: cloud
+    description: "Amazon SQS — fully managed distributed message queuing service on AWS."
+  - tag: ssh
+    category: protocol
+    description: "SSH (Secure Shell) — cryptographic network protocol for secure remote access."
+  - tag: streams
+    category: concept
+    description: "Streams — concept for processing sequential data incrementally without buffering the entire dataset."
+  - tag: stripe
+    category: saas
+    description: "Stripe — online payment processing SaaS platform with a comprehensive REST API."
+  - tag: svelte
+    category: framework
+    description: "Svelte — compiler-based JavaScript framework that shifts work to build time."
+  - tag: swift
+    category: language
+    description: "Swift — powerful, safe, compiled programming language by Apple for iOS and macOS."
+  - tag: symfony
+    category: framework
+    description: "Symfony — reusable PHP component library and full-stack MVC web application framework."
+  - tag: systemd
+    category: tooling
+    description: "systemd — Linux init system and service manager."
+  - tag: tcp
+    category: protocol
+    description: "TCP (Transmission Control Protocol) — connection-oriented transport-layer protocol."
+  - tag: telegram
+    category: saas
+    description: "Telegram — messaging platform with a public Bot API for building automated clients."
+  - tag: terraform
+    category: tooling
+    description: "Terraform — infrastructure-as-code tool by HashiCorp using declarative HCL configuration."
+  - tag: tls
+    category: protocol
+    description: "TLS (Transport Layer Security) — cryptographic protocol for secure communications over a network."
+  - tag: tokio
+    category: framework
+    description: "Tokio — asynchronous runtime for Rust providing async I/O, timers, and task scheduling."
+  - tag: tonic
+    category: framework
+    description: "Tonic — gRPC-over-HTTP/2 implementation for Rust built on Tokio."
+  - tag: traefik
+    category: tooling
+    description: "Traefik — cloud-native reverse proxy and load balancer with automatic service discovery."
+  - tag: trello
+    category: saas
+    description: "Trello — visual kanban board project management SaaS by Atlassian."
+  - tag: trio
+    category: framework
+    description: "Trio — async I/O library for Python with a focus on usability and correctness."
+  - tag: twilio
+    category: saas
+    description: "Twilio — cloud communications SaaS platform providing SMS, voice, and messaging APIs."
+  - tag: typescript
+    category: language
+    description: "TypeScript — strongly typed superset of JavaScript that compiles to plain JavaScript."
+  - tag: typesystem
+    category: concept
+    description: "Type system — concept covering static and dynamic type systems, type inference, and type checking."
+  - tag: ubuntu
+    category: cloud
+    description: "Ubuntu — Debian-based Linux distribution widely used for cloud servers and containers."
+  - tag: udp
+    category: protocol
+    description: "UDP (User Datagram Protocol) — connectionless transport-layer protocol."
+  - tag: ufw
+    category: tooling
+    description: "UFW (Uncomplicated Firewall) — front-end for iptables providing simplified firewall management on Ubuntu."
+  - tag: utf-8
+    category: protocol
+    description: "UTF-8 — variable-width Unicode character encoding standard."
+  - tag: uv
+    category: tooling
+    description: "uv — extremely fast Python package installer and resolver written in Rust."
+  - tag: vite
+    category: tooling
+    description: "Vite — next-generation front-end build tool and development server."
+  - tag: vue
+    category: framework
+    description: "Vue.js — progressive JavaScript framework for building user interfaces."
+  - tag: wal-mode
+    category: concept
+    description: "WAL mode — SQLite Write-Ahead Logging journal mode enabling concurrent reads and writes."
+  - tag: webauthn
+    category: protocol
+    description: "WebAuthn — W3C web standard for public-key-based passwordless authentication."
+  - tag: webhooks
+    category: concept
+    description: "Webhooks — HTTP callback pattern for event-driven integrations between services."
+  - tag: webpack
+    category: tooling
+    description: "webpack — module bundler for JavaScript applications with a rich plugin ecosystem."
+  - tag: websocket
+    category: protocol
+    description: "WebSocket — full-duplex communication protocol over a single TCP connection (RFC 6455)."
+  - tag: xss
+    category: protocol
+    description: "XSS (Cross-Site Scripting) — web security vulnerability class and the browser-side mitigations for it."
+  - tag: yaml
+    category: protocol
+    description: "YAML — human-readable data serialization standard used for configuration files."
+  - tag: yarn
+    category: tooling
+    description: "Yarn — fast, reliable JavaScript package manager for Node.js projects."
+  - tag: zig
+    category: language
+    description: "Zig — general-purpose systems programming language with manual memory management and comptime."
