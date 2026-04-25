@@ -1,0 +1,36 @@
+domain: stripe
+description: Stripe public API object names and common parameter keys
+version: "1"
+tokens:
+  - automatic_payment_methods
+  - balance_transaction
+  - bank_account
+  - cancel
+  - capture
+  - card
+  - charge
+  - client_secret
+  - confirm
+  - coupon
+  - customer
+  - discount
+  - dispute
+  - event
+  - idempotency_key
+  - invoice
+  - invoice_item
+  - payment_intent
+  - payment_method
+  - payout
+  - price
+  - product
+  - refund
+  - requires_action
+  - requires_confirmation
+  - return_url
+  - setup_intent
+  - subscription
+  - succeeded
+  - transfer
+  - webhook
+  - webhook_endpoint

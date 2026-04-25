@@ -1,0 +1,35 @@
+domain: github
+description: GitHub API and Actions nouns, workflow keys, and UI concepts
+version: "1"
+tokens:
+  - actions
+  - branch
+  - collaborator
+  - commit
+  - contents
+  - deployment
+  - environment
+  - gh
+  - installation
+  - issue
+  - label
+  - milestone
+  - octokit
+  - organization
+  - pages
+  - permissions
+  - pull_request
+  - push
+  - read
+  - release
+  - repo
+  - repository
+  - runner
+  - runs-on
+  - secrets
+  - tag
+  - team
+  - ubuntu-latest
+  - webhook
+  - workflow
+  - write

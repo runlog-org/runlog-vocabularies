@@ -1,0 +1,35 @@
+domain: postgresql
+description: PostgreSQL-specific extensions beyond standard SQL
+version: "1"
+tokens:
+  - ANALYZE
+  - ARRAY
+  - BIGSERIAL
+  - CONCURRENTLY
+  - EXPLAIN
+  - HASH
+  - INHERITS
+  - JSONB
+  - LATERAL
+  - LIST
+  - LOCK
+  - MATERIALIZED
+  - PARTITION
+  - RANGE
+  - REINDEX
+  - ROW
+  - SERIAL
+  - SHARE
+  - UUID
+  - VACUUM
+  - CTE
+  - EXCLUSIVE
+  - gen_random_uuid
+  - information_schema
+  - pg_catalog
+  - pg_dump
+  - pg_restore
+  - pg_stat_activity
+  - psql
+  - tsquery
+  - tsvector

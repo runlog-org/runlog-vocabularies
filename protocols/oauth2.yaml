@@ -1,0 +1,29 @@
+protocol: oauth2
+description: OAuth 2.0 and PKCE parameter names and token types
+version: "1"
+tokens:
+  - Bearer
+  - S256
+  - access_token
+  - authorization_code
+  - client_credentials
+  - client_id
+  - client_secret
+  - code
+  - code_challenge
+  - code_challenge_method
+  - code_verifier
+  - expires_in
+  - grant_type
+  - id_token
+  - login_hint
+  - nonce
+  - password
+  - prompt
+  - redirect_uri
+  - refresh_token
+  - response_mode
+  - response_type
+  - scope
+  - state
+  - token_type

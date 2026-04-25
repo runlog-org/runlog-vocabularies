@@ -1,0 +1,41 @@
+domain: http
+description: HTTP methods, standard headers, status codes, and common media types
+version: "1"
+tokens:
+  - "200"
+  - "201"
+  - "204"
+  - "301"
+  - "302"
+  - "400"
+  - "401"
+  - "403"
+  - "404"
+  - "409"
+  - "413"
+  - "429"
+  - "500"
+  - "502"
+  - "503"
+  - "504"
+  - Accept
+  - Authorization
+  - Cache-Control
+  - Content-Type
+  - Cookie
+  - DELETE
+  - ETag
+  - GET
+  - HEAD
+  - Location
+  - OPTIONS
+  - PATCH
+  - POST
+  - PUT
+  - Set-Cookie
+  - User-Agent
+  - application/json
+  - application/x-www-form-urlencoded
+  - multipart/form-data
+  - text/html
+  - text/plain
