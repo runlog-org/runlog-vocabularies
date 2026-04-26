@@ -5,16 +5,25 @@
 
 Registered stdlib identifiers, framework-public APIs, and protocol tokens per domain. The server's allow-list tokenizer and the verifier's pre-sign check both consume these files to decide whether a submission's tokens are permissible without a declared-literal wrapper.
 
-Community-PR'd. Each domain folder includes a `provenance.md` documenting how the token list was extracted from upstream so it's reproducible. Monthly audits re-run extractors and flag drift against the live sources.
+Community-PR'd. Each domain file documents its upstream source in the `version` field so the token list is reproducible. Periodic audits re-run extractors and flag drift against the live sources.
 
 ## Layout
 
-- `domains/{php,shopware,python,react,go,node,…}/`
-  - `stdlib.txt` or `public-api.txt` — one identifier per line
-  - `version.yaml` — which upstream version this reflects
-  - `provenance.md` — how it was extracted
-- `protocols/{http,smtp,…}/` — protocol-wide constants (status codes, header names)
+- `domains/<tag>.yaml` — one file per domain; filename stem must match the `domain` field
 - `scripts/` — extractors that regenerate domain files from upstream documentation
+
+Each `domains/<tag>.yaml` has four fields:
+
+```yaml
+domain: <tag>          # string, must match the filename stem (e.g. "python")
+description: <summary> # one-line human summary of what is covered
+version: "<id>"        # string identifier for the upstream version this reflects
+tokens:                # flat list of allowed token strings
+  - token_one
+  - token_two
+```
+
+New contributors: add a single YAML file at `domains/<tag>.yaml` following the shape above, plus a `scripts/generate-<tag>.sh` extractor so the list is reproducible. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
 
 ## Scope Registry
 
@@ -22,4 +31,4 @@ Community-PR'd. Each domain folder includes a `provenance.md` documenting how th
 
 ## Contributing
 
-A new domain needs: a reproducible extractor (`scripts/generate-<domain>.sh`), a provenance note, and a pinned upstream version. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
+A new domain needs a `domains/<tag>.yaml` file (shape above) and a reproducible extractor (`scripts/generate-<tag>.sh`). PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
