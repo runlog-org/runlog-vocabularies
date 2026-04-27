@@ -1,7 +1,7 @@
-# vocabularies/ — Allow-List Data
+# Runlog Vocabularies — Allow-List Data
 
-**Future repo:** `runlog-vocabularies` — public, CC-BY-SA 4.0 (planned — this is data, not code)
-**Implements:** [`../docs/05-sanitization.md`](../docs/05-sanitization.md) §8.1
+**Repo:** [`runlog-org/runlog-vocabularies`](https://github.com/runlog-org/runlog-vocabularies) — public, CC-BY-SA-4.0 (this is data, not code)
+**Implements:** [`runlog-docs/05-sanitization.md`](https://github.com/runlog-org/runlog-docs/blob/main/05-sanitization.md) §8.1
 
 Registered stdlib identifiers, framework-public APIs, and protocol tokens per domain. The server's allow-list tokenizer and the verifier's pre-sign check both consume these files to decide whether a submission's tokens are permissible without a declared-literal wrapper.
 

@@ -1,0 +1,10 @@
+# ── OS / editor ──
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Extractor scratch ──
+scripts/.cache/
