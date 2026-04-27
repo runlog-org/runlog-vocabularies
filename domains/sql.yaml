@@ -46,9 +46,9 @@ tokens:
   - MAX
   - MIN
   - NOT
-  - NULL
+  - "NULL"
   - OFFSET
-  - ON
+  - "ON"
   - OR
   - ORDER
   - OUTER
@@ -120,9 +120,9 @@ tokens:
   - max
   - min
   - not
-  - null
+  - "null"
   - offset
-  - on
+  - "on"
   - or
   - order
   - outer

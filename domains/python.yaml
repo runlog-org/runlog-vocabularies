@@ -2,9 +2,9 @@ domain: python
 description: Python builtins, keywords, stdlib modules, and common method names
 version: "1"
 tokens:
-  - False
-  - None
-  - True
+  - "False"
+  - "None"
+  - "True"
   - and
   - append
   - as

@@ -27,7 +27,7 @@ tokens:
   - every
   - exports
   - extends
-  - false
+  - "false"
   - fetch
   - filter
   - finally
@@ -45,7 +45,7 @@ tokens:
   - log
   - map
   - module
-  - null
+  - "null"
   - parse
   - pop
   - process
@@ -67,7 +67,7 @@ tokens:
   - throw
   - toJSON
   - toString
-  - true
+  - "true"
   - try
   - undefined
   - unshift
