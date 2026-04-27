@@ -3,7 +3,7 @@
 > Part of the **[Runlog](https://github.com/runlog-org)** project — see the [project home](https://github.com/runlog-org) for the overview.
 
 **Repo:** [`runlog-org/runlog-vocabularies`](https://github.com/runlog-org/runlog-vocabularies) — public, CC-BY-SA-4.0 (this is data, not code)
-**Implements:** [`runlog-docs/05-sanitization.md`](https://github.com/runlog-org/runlog-docs/blob/main/05-sanitization.md) §8.1
+**Role:** allow-list data consumed by the server's sanitizer and the verifier's pre-sign check. Default-deny — any token not in this registry needs an explicit `$LITERAL_N` declaration with a reason at submission time.
 
 Registered stdlib identifiers, framework-public APIs, and protocol tokens per domain. The server's allow-list tokenizer and the verifier's pre-sign check both consume these files to decide whether a submission's tokens are permissible without a declared-literal wrapper.
 
