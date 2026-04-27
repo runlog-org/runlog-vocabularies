@@ -1,0 +1,43 @@
+domain: mongodb
+description: MongoDB query/update operators, aggregation stages, and CRUD method names
+version: "MongoDB 7"
+tokens:
+  - "$addToSet"
+  - "$and"
+  - "$eq"
+  - "$exists"
+  - "$expr"
+  - "$group"
+  - "$gt"
+  - "$gte"
+  - "$in"
+  - "$inc"
+  - "$limit"
+  - "$lookup"
+  - "$lt"
+  - "$lte"
+  - "$match"
+  - "$ne"
+  - "$nin"
+  - "$or"
+  - "$project"
+  - "$pull"
+  - "$push"
+  - "$regex"
+  - "$set"
+  - "$skip"
+  - "$sort"
+  - "$unset"
+  - "$unwind"
+  - aggregate
+  - countDocuments
+  - createIndex
+  - deleteMany
+  - deleteOne
+  - find
+  - findOne
+  - insertMany
+  - insertOne
+  - replaceOne
+  - updateMany
+  - updateOne

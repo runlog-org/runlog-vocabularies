@@ -1,0 +1,36 @@
+domain: cloudflare
+description: Cloudflare Workers runtime globals, wrangler.toml fields, and Pages config
+version: "Cloudflare Workers (2025)"
+tokens:
+  - D1Database
+  - DurableObject
+  - Fetcher
+  - Headers
+  - KVNamespace
+  - Queue
+  - R2Bucket
+  - Request
+  - Response
+  - Service
+  - URL
+  - URLPattern
+  - _headers
+  - _redirects
+  - _routes.json
+  - account_id
+  - addEventListener
+  - compatibility_date
+  - compatibility_flags
+  - d1_databases
+  - durable_objects
+  - fetch
+  - functions
+  - kv_namespaces
+  - main
+  - name
+  - r2_buckets
+  - route
+  - routes
+  - secrets
+  - vars
+  - workers_dev

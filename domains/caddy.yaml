@@ -1,0 +1,40 @@
+domain: caddy
+description: Caddyfile directives and global options block keywords
+version: "Caddy v2"
+tokens:
+  - abort
+  - acme_ca
+  - admin
+  - auto_https
+  - basicauth
+  - debug
+  - default_sni
+  - email
+  - encode
+  - error
+  - file_server
+  - handle
+  - handle_errors
+  - handle_path
+  - handle_response
+  - header
+  - header_down
+  - header_up
+  - log
+  - map
+  - on_demand_tls
+  - php_fastcgi
+  - push
+  - redir
+  - request_header
+  - respond
+  - reverse_proxy
+  - rewrite
+  - root
+  - route
+  - servers
+  - storage
+  - templates
+  - tls
+  - try_files
+  - vars

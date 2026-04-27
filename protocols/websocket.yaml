@@ -1,0 +1,33 @@
+protocol: websocket
+description: WebSocket opcodes, handshake headers, and close codes
+version: "RFC 6455"
+tokens:
+  - "1000"
+  - "1001"
+  - "1002"
+  - "1003"
+  - "1006"
+  - "1008"
+  - "1009"
+  - "1011"
+  - ABNORMAL_CLOSURE
+  - Connection
+  - GOING_AWAY
+  - INTERNAL_ERROR
+  - MESSAGE_TOO_BIG
+  - NORMAL_CLOSURE
+  - POLICY_VIOLATION
+  - PROTOCOL_ERROR
+  - Sec-WebSocket-Accept
+  - Sec-WebSocket-Extensions
+  - Sec-WebSocket-Key
+  - Sec-WebSocket-Protocol
+  - Sec-WebSocket-Version
+  - UNSUPPORTED_DATA
+  - Upgrade
+  - binary
+  - close
+  - continuation
+  - ping
+  - pong
+  - text

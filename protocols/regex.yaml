@@ -1,0 +1,35 @@
+protocol: regex
+description: Regex flag letters, POSIX character class names, and named-construct keywords. Surface is intentionally sparse — single-letter flag tokens and a small set of documented class/construct words.
+version: "PCRE2 + POSIX"
+tokens:
+  - A
+  - D
+  - S
+  - U
+  - X
+  - alnum
+  - alpha
+  - atomic
+  - blank
+  - capturing
+  - cntrl
+  - digit
+  - g
+  - graph
+  - i
+  - lookahead
+  - lookbehind
+  - lower
+  - m
+  - named
+  - noncapturing
+  - print
+  - punct
+  - s
+  - space
+  - u
+  - upper
+  - word
+  - x
+  - xdigit
+  - y

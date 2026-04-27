@@ -1,0 +1,51 @@
+domain: nodejs
+description: Node.js stdlib module names and Node-specific globals
+version: "Node.js 22 LTS"
+tokens:
+  - Buffer
+  - __dirname
+  - __filename
+  - assert
+  - buffer
+  - child_process
+  - clearImmediate
+  - clearInterval
+  - clearTimeout
+  - cluster
+  - console
+  - crypto
+  - dns
+  - "dns/promises"
+  - events
+  - exports
+  - fs
+  - "fs/promises"
+  - global
+  - globalThis
+  - http
+  - http2
+  - https
+  - io
+  - module
+  - net
+  - os
+  - path
+  - perf_hooks
+  - process
+  - querystring
+  - readline
+  - repl
+  - require
+  - setImmediate
+  - setInterval
+  - setTimeout
+  - stream
+  - "stream/promises"
+  - test
+  - timers
+  - tls
+  - url
+  - util
+  - vm
+  - worker_threads
+  - zlib

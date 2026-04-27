@@ -1,0 +1,44 @@
+domain: linux
+description: Common Unix utilities, POSIX signals, and standard filesystem paths
+version: "GNU coreutils + POSIX"
+tokens:
+  - "/dev"
+  - "/etc"
+  - "/home"
+  - "/opt"
+  - "/proc"
+  - "/sys"
+  - "/tmp"
+  - "/usr"
+  - "/var"
+  - SIGALRM
+  - SIGCHLD
+  - SIGHUP
+  - SIGINT
+  - SIGKILL
+  - SIGPIPE
+  - SIGQUIT
+  - SIGSTOP
+  - SIGTERM
+  - SIGUSR1
+  - SIGUSR2
+  - awk
+  - cat
+  - cd
+  - chmod
+  - chown
+  - cp
+  - curl
+  - find
+  - grep
+  - head
+  - ls
+  - mkdir
+  - mv
+  - ps
+  - rm
+  - rsync
+  - sed
+  - ssh
+  - tail
+  - tar

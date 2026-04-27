@@ -1,0 +1,41 @@
+domain: kubernetes
+description: Kubernetes built-in resource Kinds, apiVersion groups, and standard verbs
+version: "Kubernetes v1.30"
+tokens:
+  - ClusterRole
+  - ClusterRoleBinding
+  - ConfigMap
+  - CronJob
+  - DaemonSet
+  - Deployment
+  - HorizontalPodAutoscaler
+  - Ingress
+  - Job
+  - Namespace
+  - NetworkPolicy
+  - Node
+  - PersistentVolume
+  - PersistentVolumeClaim
+  - Pod
+  - ReplicaSet
+  - Role
+  - RoleBinding
+  - Secret
+  - Service
+  - ServiceAccount
+  - StatefulSet
+  - "apps/v1"
+  - "autoscaling/v2"
+  - "batch/v1"
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - "networking.k8s.io/v1"
+  - patch
+  - "rbac.authorization.k8s.io/v1"
+  - "storage.k8s.io/v1"
+  - update
+  - v1
+  - watch

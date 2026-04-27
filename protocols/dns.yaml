@@ -1,0 +1,29 @@
+protocol: dns
+description: DNS record types, classes, opcodes, and response codes
+version: "RFC 1035 + RFC 3596 + RFC 6891"
+tokens:
+  - A
+  - AAAA
+  - ANY
+  - CAA
+  - CH
+  - CNAME
+  - DNSKEY
+  - DS
+  - FORMERR
+  - IN
+  - MX
+  - NOERROR
+  - NOTIMP
+  - NS
+  - NSEC
+  - NSEC3
+  - NXDOMAIN
+  - OPT
+  - PTR
+  - REFUSED
+  - RRSIG
+  - SERVFAIL
+  - SOA
+  - SRV
+  - TXT

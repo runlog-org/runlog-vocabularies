@@ -1,0 +1,43 @@
+domain: lambda
+description: AWS Lambda configuration fields, runtime identifiers, event sources, and event payload keys
+version: "AWS Lambda runtime API"
+tokens:
+  - Records
+  - apigateway
+  - body
+  - deadLetterConfig
+  - dotnet8
+  - dynamodb
+  - environment
+  - ephemeralStorage
+  - eventName
+  - eventSource
+  - eventTime
+  - eventbridge
+  - fileSystemConfigs
+  - go1.x
+  - handler
+  - headers
+  - isBase64Encoded
+  - java21
+  - kinesis
+  - layers
+  - memorySize
+  - nodejs20.x
+  - nodejs22.x
+  - pathParameters
+  - provided.al2023
+  - python3.11
+  - python3.12
+  - queryStringParameters
+  - requestContext
+  - role
+  - ruby3.3
+  - runtime
+  - s3
+  - snapStart
+  - sns
+  - sqs
+  - timeout
+  - tracingConfig
+  - vpcConfig

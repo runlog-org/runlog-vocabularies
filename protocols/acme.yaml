@@ -1,0 +1,30 @@
+protocol: acme
+description: RFC 8555 ACME resource names, status values, challenge types, and problem-document slugs
+version: "RFC 8555 (ACME)"
+tokens:
+  - accountDoesNotExist
+  - badNonce
+  - badSignatureAlgorithm
+  - deactivated
+  - dns
+  - "dns-01"
+  - expired
+  - "http-01"
+  - invalid
+  - keyChange
+  - malformed
+  - newAccount
+  - newAuthz
+  - newNonce
+  - newOrder
+  - pending
+  - processing
+  - rateLimited
+  - ready
+  - revokeCert
+  - revoked
+  - "tls-alpn-01"
+  - unauthorized
+  - unsupportedContact
+  - userActionRequired
+  - valid

@@ -1,0 +1,39 @@
+domain: aws
+description: AWS-wide common nouns, service slugs, SDK/CLI parameters, and ARN components
+version: "AWS SDK v3 / boto3 (general)"
+tokens:
+  - AccessKeyId
+  - Profile
+  - Region
+  - ResourceArn
+  - RoleArn
+  - SecretAccessKey
+  - SessionToken
+  - accountId
+  - arn
+  - athena
+  - aws
+  - cloudfront
+  - cloudwatch
+  - dynamodb
+  - ec2
+  - ecs
+  - eks
+  - elb
+  - eventbridge
+  - glue
+  - iam
+  - kinesis
+  - kms
+  - lambda
+  - partition
+  - rds
+  - region
+  - route53
+  - s3
+  - secretsmanager
+  - sns
+  - sqs
+  - ssm
+  - sts
+  - vpc

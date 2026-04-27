@@ -1,0 +1,40 @@
+domain: s3
+description: Amazon S3 API operations, canned ACLs, storage classes, and common headers
+version: "Amazon S3 REST API"
+tokens:
+  - AbortMultipartUpload
+  - CompleteMultipartUpload
+  - Content-MD5
+  - CopyObject
+  - CreateBucket
+  - CreateMultipartUpload
+  - DEEP_ARCHIVE
+  - DeleteBucket
+  - DeleteObject
+  - ETag
+  - GLACIER
+  - GLACIER_IR
+  - GetBucketPolicy
+  - GetObject
+  - HeadBucket
+  - HeadObject
+  - INTELLIGENT_TIERING
+  - ListBuckets
+  - ListObjectsV2
+  - ONEZONE_IA
+  - PutBucketPolicy
+  - PutObject
+  - PutObjectAcl
+  - STANDARD
+  - STANDARD_IA
+  - UploadPart
+  - authenticated-read
+  - bucket-owner-full-control
+  - bucket-owner-read
+  - private
+  - public-read
+  - public-read-write
+  - x-amz-acl
+  - x-amz-meta-
+  - x-amz-server-side-encryption
+  - x-amz-storage-class

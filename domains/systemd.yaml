@@ -1,0 +1,44 @@
+domain: systemd
+description: systemd unit type suffixes, section names, directive keys, and Type values
+version: "systemd 256 unit files"
+tokens:
+  - After
+  - Before
+  - Description
+  - Environment
+  - ExecReload
+  - ExecStart
+  - ExecStop
+  - Group
+  - Install
+  - OnCalendar
+  - PrivateTmp
+  - ProtectHome
+  - ProtectSystem
+  - Requires
+  - Restart
+  - RestartSec
+  - Service
+  - Socket
+  - Timer
+  - Type
+  - Unit
+  - User
+  - WantedBy
+  - Wants
+  - WorkingDirectory
+  - automount
+  - device
+  - forking
+  - mount
+  - notify
+  - oneshot
+  - path
+  - scope
+  - service
+  - simple
+  - slice
+  - socket
+  - swap
+  - target
+  - timer

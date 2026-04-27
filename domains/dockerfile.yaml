@@ -1,0 +1,31 @@
+domain: dockerfile
+description: Dockerfile instructions, parser directives, and BuildKit mount types
+version: "Dockerfile reference (BuildKit)"
+tokens:
+  - ADD
+  - ARG
+  - CMD
+  - COPY
+  - ENTRYPOINT
+  - ENV
+  - EXPOSE
+  - FROM
+  - HEALTHCHECK
+  - LABEL
+  - MAINTAINER
+  - ONBUILD
+  - RUN
+  - SHELL
+  - STOPSIGNAL
+  - USER
+  - VOLUME
+  - WORKDIR
+  - bind
+  - cache
+  - dockerfile-frontend
+  - escape
+  - scratch
+  - secret
+  - ssh
+  - syntax
+  - tmpfs

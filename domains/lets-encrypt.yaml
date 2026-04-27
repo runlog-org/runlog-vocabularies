@@ -1,0 +1,26 @@
+domain: lets-encrypt
+description: Let's Encrypt-specific endpoints, Certbot subcommands, and conventional filenames
+version: "Let's Encrypt + Certbot"
+tokens:
+  - "--apache"
+  - "--dns"
+  - "--dry-run"
+  - "--eab-hmac-key"
+  - "--eab-kid"
+  - "--force-renewal"
+  - "--manual"
+  - "--nginx"
+  - "--rsa-key-size"
+  - "--staging"
+  - "--standalone"
+  - "--webroot"
+  - .well-known
+  - acme-challenge
+  - acme-staging-v02
+  - acme-v02
+  - api.letsencrypt.org
+  - cert.pem
+  - certbot
+  - chain.pem
+  - fullchain.pem
+  - privkey.pem

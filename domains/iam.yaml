@@ -1,0 +1,40 @@
+domain: iam
+description: AWS IAM policy document grammar, condition operators, and common condition keys
+version: "AWS IAM policy grammar"
+tokens:
+  - Action
+  - Allow
+  - ArnEquals
+  - ArnLike
+  - Bool
+  - Condition
+  - DateEquals
+  - DateGreaterThan
+  - DateLessThan
+  - Deny
+  - Effect
+  - Id
+  - IpAddress
+  - NotAction
+  - NotIpAddress
+  - NotPrincipal
+  - NotResource
+  - "Null"
+  - NumericEquals
+  - NumericGreaterThan
+  - NumericLessThan
+  - Principal
+  - Resource
+  - Sid
+  - Statement
+  - StringEquals
+  - StringLike
+  - StringNotEquals
+  - StringNotLike
+  - Version
+  - "aws:CurrentTime"
+  - "aws:PrincipalArn"
+  - "aws:RequestedRegion"
+  - "aws:SecureTransport"
+  - "aws:SourceArn"
+  - "aws:SourceIp"

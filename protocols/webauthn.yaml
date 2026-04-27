@@ -1,0 +1,34 @@
+protocol: webauthn
+description: WebAuthn Level 3 algorithm names, transport values, policy values, and credential field names
+version: "WebAuthn Level 3"
+tokens:
+  - ES256
+  - EdDSA
+  - RS256
+  - attestation
+  - attestationObject
+  - authenticatorData
+  - authenticatorSelection
+  - challenge
+  - clientDataJSON
+  - "cross-platform"
+  - direct
+  - discouraged
+  - excludeCredentials
+  - hybrid
+  - indirect
+  - internal
+  - nfc
+  - none
+  - platform
+  - preferred
+  - pubKeyCredParams
+  - rawId
+  - required
+  - response
+  - rp
+  - signature
+  - timeout
+  - usb
+  - user
+  - userHandle

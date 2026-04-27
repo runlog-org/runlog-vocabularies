@@ -1,0 +1,9 @@
+protocol: pkce
+description: RFC 7636 Proof Key for Code Exchange parameters and challenge methods (narrow surface; broader OAuth 2.0 parameters live in oauth2)
+version: "RFC 7636 (PKCE)"
+tokens:
+  - S256
+  - code_challenge
+  - code_challenge_method
+  - code_verifier
+  - plain

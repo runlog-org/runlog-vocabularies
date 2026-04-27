@@ -1,0 +1,38 @@
+protocol: graphql
+description: GraphQL operation keywords, built-in scalars, introspection types, and standard directives
+version: "GraphQL October 2021 spec"
+tokens:
+  - "@deprecated"
+  - "@include"
+  - "@skip"
+  - "@specifiedBy"
+  - Boolean
+  - Float
+  - ID
+  - Int
+  - String
+  - "__Directive"
+  - "__EnumValue"
+  - "__Field"
+  - "__InputValue"
+  - "__Schema"
+  - "__Type"
+  - "__schema"
+  - "__type"
+  - "__typename"
+  - directive
+  - enum
+  - extend
+  - fragment
+  - implements
+  - input
+  - interface
+  - mutation
+  - "on"
+  - query
+  - repeatable
+  - scalar
+  - schema
+  - subscription
+  - type
+  - union

@@ -481,6 +481,9 @@ domains:
   - tag: pulumi
     category: tooling
     description: "Pulumi — infrastructure-as-code SDK using general-purpose programming languages."
+  - tag: pytest
+    category: framework
+    description: "pytest — Python testing framework with fixtures, parametrization, and a rich plugin ecosystem."
   - tag: python
     category: language
     description: "Python — high-level, dynamically typed programming language emphasizing readability."

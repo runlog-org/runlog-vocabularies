@@ -1,0 +1,41 @@
+domain: dynamodb
+description: DynamoDB API operations, attribute type tags, key schema words, and request parameters
+version: "DynamoDB API v20120810"
+tokens:
+  - ALL
+  - B
+  - BOOL
+  - BatchGetItem
+  - BatchWriteItem
+  - ConditionExpression
+  - ConsistentRead
+  - CreateTable
+  - DeleteItem
+  - DeleteTable
+  - DescribeTable
+  - ExpressionAttributeNames
+  - ExpressionAttributeValues
+  - FilterExpression
+  - GetItem
+  - HASH
+  - INCLUDE
+  - Item
+  - KEYS_ONLY
+  - Key
+  - L
+  - ListTables
+  - M
+  - "N"
+  - ProjectionExpression
+  - PutItem
+  - Query
+  - RANGE
+  - ReturnValues
+  - S
+  - Scan
+  - TableName
+  - TransactGetItems
+  - TransactWriteItems
+  - UpdateExpression
+  - UpdateItem
+  - UpdateTable

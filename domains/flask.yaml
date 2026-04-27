@@ -1,0 +1,43 @@
+domain: flask
+description: Flask top-level APIs, app/route decorators, and request/response attributes
+version: "Flask 3"
+tokens:
+  - Blueprint
+  - Flask
+  - abort
+  - after_request
+  - before_first_request
+  - before_request
+  - cli
+  - context_processor
+  - current_app
+  - errorhandler
+  - flash
+  - g
+  - get_flashed_messages
+  - jsonify
+  - make_response
+  - redirect
+  - render_template
+  - render_template_string
+  - request
+  - "request.args"
+  - "request.cookies"
+  - "request.files"
+  - "request.form"
+  - "request.headers"
+  - "request.json"
+  - "request.method"
+  - "request.path"
+  - "request.remote_addr"
+  - "request.url"
+  - route
+  - send_file
+  - send_from_directory
+  - session
+  - stream_with_context
+  - teardown_appcontext
+  - teardown_request
+  - template_filter
+  - template_global
+  - url_for

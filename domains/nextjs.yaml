@@ -1,0 +1,56 @@
+domain: nextjs
+description: Next.js App Router special files, exports, data APIs, and core packages
+version: "Next.js 14 App Router"
+tokens:
+  - apple-icon
+  - cookies
+  - default
+  - draftMode
+  - dynamic
+  - dynamicParams
+  - error
+  - favicon
+  - fetchCache
+  - generateMetadata
+  - generateStaticParams
+  - global-error
+  - headers
+  - icon
+  - instrumentation
+  - layout
+  - loading
+  - manifest
+  - metadata
+  - middleware
+  - next
+  - "next/cache"
+  - "next/font"
+  - "next/headers"
+  - "next/image"
+  - "next/link"
+  - "next/navigation"
+  - "next/server"
+  - not-found
+  - notFound
+  - opengraph-image
+  - page
+  - permanentRedirect
+  - preferredRegion
+  - redirect
+  - revalidate
+  - revalidatePath
+  - revalidateTag
+  - robots
+  - route
+  - runtime
+  - sitemap
+  - template
+  - twitter-image
+  - unstable_cache
+  - useParams
+  - usePathname
+  - useRouter
+  - useSearchParams
+  - useSelectedLayoutSegment
+  - useSelectedLayoutSegments
+  - viewport

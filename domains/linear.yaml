@@ -1,0 +1,56 @@
+domain: linear
+description: Linear GraphQL API mutation/query names, enum-style values, and field nouns
+version: "Linear GraphQL API (2025)"
+tokens:
+  - archivedAt
+  - assignee
+  - attachments
+  - backlog
+  - branchName
+  - canceled
+  - canceledAt
+  - children
+  - commentCreate
+  - commentUpdate
+  - comments
+  - completed
+  - completedAt
+  - creator
+  - cycle
+  - cycleCreate
+  - cycles
+  - dueDate
+  - high
+  - history
+  - identifier
+  - issue
+  - issueArchive
+  - issueBatchUpdate
+  - issueCreate
+  - issueDelete
+  - issueUpdate
+  - issues
+  - labelCreate
+  - labels
+  - low
+  - medium
+  - parent
+  - project
+  - projectCreate
+  - projectUpdate
+  - projects
+  - reactions
+  - started
+  - subscribers
+  - team
+  - teamCreate
+  - teams
+  - triage
+  - unstarted
+  - urgent
+  - user
+  - users
+  - viewer
+  - workflowState
+  - workflowStateCreate
+  - workflowStates

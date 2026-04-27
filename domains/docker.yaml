@@ -1,0 +1,44 @@
+domain: docker
+description: Docker CLI subcommands and common run flags
+version: "Docker Engine 24.x"
+tokens:
+  - "--entrypoint"
+  - "--env"
+  - "--name"
+  - "--network"
+  - "--publish"
+  - "--restart"
+  - "--rm"
+  - "--volume"
+  - "-d"
+  - "-i"
+  - "-p"
+  - "-t"
+  - "-v"
+  - build
+  - commit
+  - container
+  - cp
+  - create
+  - exec
+  - image
+  - images
+  - inspect
+  - kill
+  - load
+  - login
+  - logs
+  - network
+  - ps
+  - pull
+  - push
+  - restart
+  - rm
+  - rmi
+  - run
+  - save
+  - start
+  - stop
+  - tag
+  - version
+  - volume

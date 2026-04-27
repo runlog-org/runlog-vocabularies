@@ -1,0 +1,32 @@
+protocol: grpc
+description: gRPC status codes and standard metadata header keys
+version: "gRPC Core 1.x status codes"
+tokens:
+  - ABORTED
+  - ALREADY_EXISTS
+  - CANCELLED
+  - DATA_LOSS
+  - DEADLINE_EXCEEDED
+  - FAILED_PRECONDITION
+  - INTERNAL
+  - INVALID_ARGUMENT
+  - NOT_FOUND
+  - OK
+  - OUT_OF_RANGE
+  - PERMISSION_DENIED
+  - RESOURCE_EXHAUSTED
+  - UNAUTHENTICATED
+  - UNAVAILABLE
+  - UNIMPLEMENTED
+  - UNKNOWN
+  - application/grpc
+  - authority
+  - content-type
+  - grpc-accept-encoding
+  - grpc-encoding
+  - grpc-message
+  - grpc-status
+  - grpc-timeout
+  - grpc-trace-bin
+  - te
+  - user-agent

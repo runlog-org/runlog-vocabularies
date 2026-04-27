@@ -1,0 +1,39 @@
+domain: react
+description: React 18+ hooks, top-level APIs, and JSX-special prop names
+version: "React 18"
+tokens:
+  - Children
+  - Fragment
+  - Profiler
+  - StrictMode
+  - Suspense
+  - children
+  - className
+  - cloneElement
+  - createContext
+  - createElement
+  - dangerouslySetInnerHTML
+  - forwardRef
+  - htmlFor
+  - isValidElement
+  - key
+  - lazy
+  - memo
+  - ref
+  - startTransition
+  - useCallback
+  - useContext
+  - useDebugValue
+  - useDeferredValue
+  - useEffect
+  - useEffectEvent
+  - useId
+  - useImperativeHandle
+  - useInsertionEffect
+  - useLayoutEffect
+  - useMemo
+  - useReducer
+  - useRef
+  - useState
+  - useSyncExternalStore
+  - useTransition

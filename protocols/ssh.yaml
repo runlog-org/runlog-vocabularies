@@ -1,0 +1,32 @@
+protocol: ssh
+description: OpenSSH sshd_config and ssh_config keyword names plus documented public-key algorithm identifiers
+version: "OpenSSH 9.x"
+tokens:
+  - AllowGroups
+  - AllowUsers
+  - AuthorizedKeysFile
+  - ChallengeResponseAuthentication
+  - ClientAliveInterval
+  - DenyUsers
+  - ForwardAgent
+  - HostKey
+  - IdentityFile
+  - KbdInteractiveAuthentication
+  - ListenAddress
+  - MaxAuthTries
+  - MaxSessions
+  - PasswordAuthentication
+  - PermitRootLogin
+  - Port
+  - ProxyCommand
+  - ProxyJump
+  - PubkeyAuthentication
+  - ServerAliveInterval
+  - StrictHostKeyChecking
+  - UserKnownHostsFile
+  - X11Forwarding
+  - "ecdsa-sha2-nistp256"
+  - "rsa-sha2-256"
+  - "rsa-sha2-512"
+  - "ssh-ed25519"
+  - "ssh-rsa"

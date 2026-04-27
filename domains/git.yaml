@@ -1,0 +1,44 @@
+domain: git
+description: Git porcelain subcommands, config namespaces, and ref namespaces
+version: "Git 2.45 porcelain"
+tokens:
+  - FETCH_HEAD
+  - HEAD
+  - MERGE_HEAD
+  - ORIG_HEAD
+  - add
+  - am
+  - apply
+  - archive
+  - bisect
+  - blame
+  - branch
+  - checkout
+  - cherry-pick
+  - clone
+  - commit
+  - config
+  - diff
+  - fetch
+  - grep
+  - init
+  - log
+  - merge
+  - mv
+  - pull
+  - push
+  - rebase
+  - reflog
+  - "refs/heads"
+  - "refs/remotes"
+  - "refs/tags"
+  - remote
+  - reset
+  - restore
+  - revert
+  - rm
+  - show
+  - stash
+  - status
+  - switch
+  - tag

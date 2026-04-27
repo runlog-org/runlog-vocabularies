@@ -1,0 +1,34 @@
+protocol: saml
+description: SAML 2.0 element names, binding identifiers, NameID formats, and status codes
+version: "SAML 2.0 Core"
+tokens:
+  - Assertion
+  - Attribute
+  - AttributeStatement
+  - AudienceRestriction
+  - AuthnFailed
+  - AuthnRequest
+  - AuthnStatement
+  - Conditions
+  - EncryptedAssertion
+  - HTTP-Artifact
+  - HTTP-POST
+  - HTTP-Redirect
+  - Issuer
+  - LogoutRequest
+  - LogoutResponse
+  - NameID
+  - NoAuthnContext
+  - RequestDenied
+  - Requester
+  - Responder
+  - Response
+  - SOAP
+  - Signature
+  - Subject
+  - Success
+  - VersionMismatch
+  - emailAddress
+  - persistent
+  - transient
+  - unspecified

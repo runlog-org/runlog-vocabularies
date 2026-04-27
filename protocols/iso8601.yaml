@@ -1,0 +1,21 @@
+protocol: iso8601
+description: ISO 8601 date, time, zone, and duration designators (directive surface)
+version: "ISO 8601:2019"
+tokens:
+  - D
+  - DD
+  - H
+  - MM
+  - P
+  - PT
+  - S
+  - T
+  - UTC
+  - W
+  - Y
+  - YYYY
+  - Z
+  - hh
+  - mm
+  - ms
+  - ss

@@ -1,0 +1,43 @@
+domain: fastapi
+description: FastAPI classes, decorators, middleware, Pydantic helpers, and lifespan hooks
+version: "FastAPI 0.110"
+tokens:
+  - APIRouter
+  - BackgroundTasks
+  - BaseModel
+  - Body
+  - CORSMiddleware
+  - ConfigDict
+  - Cookie
+  - Depends
+  - FastAPI
+  - Field
+  - File
+  - Form
+  - GZipMiddleware
+  - HTTPException
+  - HTTPSRedirectMiddleware
+  - Header
+  - Path
+  - Query
+  - Request
+  - Response
+  - Security
+  - TrustedHostMiddleware
+  - UploadFile
+  - WebSocket
+  - WebSocketException
+  - delete
+  - get
+  - head
+  - lifespan
+  - model_validator
+  - options
+  - patch
+  - post
+  - put
+  - shutdown
+  - startup
+  - status
+  - validator
+  - websocket

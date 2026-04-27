@@ -1,0 +1,8 @@
+protocol: hsts
+description: HSTS header and directives; the spec defines a small fixed surface
+version: "RFC 6797"
+tokens:
+  - Strict-Transport-Security
+  - includeSubDomains
+  - max-age
+  - preload

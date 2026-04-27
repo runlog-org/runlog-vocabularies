@@ -1,0 +1,44 @@
+domain: bash
+description: Bash builtins, control keywords, and standard shell variables
+version: "Bash 5.x"
+tokens:
+  - "$!"
+  - "$#"
+  - "$$"
+  - "$*"
+  - "$0"
+  - "$?"
+  - "$@"
+  - HOME
+  - IFS
+  - PATH
+  - PWD
+  - SHELL
+  - USER
+  - alias
+  - case
+  - cd
+  - declare
+  - do
+  - done
+  - echo
+  - elif
+  - else
+  - esac
+  - eval
+  - exec
+  - exit
+  - export
+  - fi
+  - for
+  - if
+  - in
+  - local
+  - printf
+  - read
+  - return
+  - set
+  - source
+  - then
+  - trap
+  - unset

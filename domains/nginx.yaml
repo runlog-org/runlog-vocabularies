@@ -1,0 +1,40 @@
+domain: nginx
+description: Nginx top-level, http, server, and location directive names
+version: "nginx 1.26 stable"
+tokens:
+  - access_log
+  - add_header
+  - client_max_body_size
+  - error_log
+  - error_page
+  - events
+  - expires
+  - fastcgi_param
+  - fastcgi_pass
+  - gzip
+  - gzip_types
+  - http
+  - include
+  - index
+  - keepalive_timeout
+  - listen
+  - location
+  - proxy_pass
+  - proxy_redirect
+  - proxy_set_header
+  - return
+  - rewrite
+  - root
+  - sendfile
+  - server
+  - server_name
+  - ssl_certificate
+  - ssl_certificate_key
+  - ssl_ciphers
+  - ssl_protocols
+  - tcp_nodelay
+  - tcp_nopush
+  - try_files
+  - upstream
+  - worker_connections
+  - worker_processes

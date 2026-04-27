@@ -1,0 +1,45 @@
+domain: kafka
+description: Apache Kafka client/broker config keys and core domain nouns
+version: "Apache Kafka 3.7"
+tokens:
+  - "acks"
+  - "auto.offset.reset"
+  - "batch.size"
+  - "bootstrap.servers"
+  - broker
+  - "buffer.memory"
+  - "client.id"
+  - consumer
+  - consumer-group
+  - "enable.auto.commit"
+  - "enable.idempotence"
+  - "fetch.max.bytes"
+  - "fetch.min.bytes"
+  - "group.id"
+  - "heartbeat.interval.ms"
+  - "isolation.level"
+  - isr
+  - "key.deserializer"
+  - "key.serializer"
+  - leader
+  - "linger.ms"
+  - "log.retention.hours"
+  - "log.segment.bytes"
+  - "max.in.flight.requests.per.connection"
+  - "max.poll.records"
+  - "min.insync.replicas"
+  - "num.partitions"
+  - offset
+  - partition
+  - "partition.assignment.strategy"
+  - producer
+  - replica
+  - "replication.factor"
+  - "retries"
+  - "sasl.mechanism"
+  - "security.protocol"
+  - "session.timeout.ms"
+  - topic
+  - "transactional.id"
+  - "value.deserializer"
+  - "value.serializer"

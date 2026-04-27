@@ -1,0 +1,23 @@
+protocol: cron
+description: POSIX/Vixie cron special strings, field names, and wildcard punctuation (narrow surface)
+version: "Vixie cron"
+tokens:
+  - "\"*\""
+  - "\"?\""
+  - "@annually"
+  - "@daily"
+  - "@hourly"
+  - "@midnight"
+  - "@monthly"
+  - "@reboot"
+  - "@weekly"
+  - "@yearly"
+  - dayofmonth
+  - dayofweek
+  - hour
+  - minute
+  - month
+  - range
+  - second
+  - step
+  - year

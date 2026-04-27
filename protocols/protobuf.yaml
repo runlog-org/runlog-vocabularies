@@ -1,0 +1,44 @@
+protocol: protobuf
+description: Protocol Buffers v3 keywords, scalar types, and wire-type names
+version: "Protocol Buffers v3"
+tokens:
+  - EGROUP
+  - I32
+  - I64
+  - LEN
+  - SGROUP
+  - VARINT
+  - bool
+  - bytes
+  - double
+  - enum
+  - extend
+  - extensions
+  - fixed32
+  - fixed64
+  - float
+  - group
+  - import
+  - int32
+  - int64
+  - map
+  - message
+  - oneof
+  - option
+  - optional
+  - package
+  - repeated
+  - required
+  - reserved
+  - returns
+  - rpc
+  - service
+  - sfixed32
+  - sfixed64
+  - sint32
+  - sint64
+  - stream
+  - string
+  - syntax
+  - uint32
+  - uint64

@@ -1,0 +1,44 @@
+domain: redis
+description: Redis commands and core data type names
+version: "Redis 7"
+tokens:
+  - AUTH
+  - CLIENT
+  - CONFIG
+  - DEL
+  - EXEC
+  - EXISTS
+  - EXPIRE
+  - GET
+  - HDEL
+  - HGET
+  - HGETALL
+  - HSET
+  - INCR
+  - INFO
+  - KEYS
+  - LPOP
+  - LPUSH
+  - LRANGE
+  - MGET
+  - MSET
+  - MULTI
+  - PING
+  - PUBLISH
+  - RPOP
+  - RPUSH
+  - SADD
+  - SCAN
+  - SET
+  - SMEMBERS
+  - SUBSCRIBE
+  - TTL
+  - TYPE
+  - ZADD
+  - ZRANGE
+  - hash
+  - list
+  - set
+  - stream
+  - string
+  - zset

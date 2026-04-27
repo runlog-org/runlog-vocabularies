@@ -1,0 +1,34 @@
+protocol: csp
+description: Content Security Policy directive names and source-list keywords
+version: "CSP Level 3 (W3C Working Draft)"
+tokens:
+  - base-uri
+  - block-all-mixed-content
+  - child-src
+  - connect-src
+  - default-src
+  - font-src
+  - form-action
+  - frame-ancestors
+  - frame-src
+  - img-src
+  - manifest-src
+  - media-src
+  - none
+  - object-src
+  - report-sample
+  - report-to
+  - report-uri
+  - require-trusted-types-for
+  - sandbox
+  - script-src
+  - self
+  - strict-dynamic
+  - style-src
+  - trusted-types
+  - unsafe-eval
+  - unsafe-hashes
+  - unsafe-inline
+  - upgrade-insecure-requests
+  - wasm-unsafe-eval
+  - worker-src

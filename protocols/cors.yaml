@@ -1,0 +1,25 @@
+protocol: cors
+description: CORS request/response headers, allow-method values, and fetch modes
+version: "Fetch Living Standard (CORS)"
+tokens:
+  - "*"
+  - Access-Control-Allow-Credentials
+  - Access-Control-Allow-Headers
+  - Access-Control-Allow-Methods
+  - Access-Control-Allow-Origin
+  - Access-Control-Expose-Headers
+  - Access-Control-Max-Age
+  - Access-Control-Request-Headers
+  - Access-Control-Request-Method
+  - DELETE
+  - GET
+  - HEAD
+  - OPTIONS
+  - Origin
+  - PATCH
+  - POST
+  - PUT
+  - Vary
+  - cors
+  - no-cors
+  - same-origin

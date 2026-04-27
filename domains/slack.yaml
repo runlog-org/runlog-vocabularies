@@ -1,0 +1,53 @@
+domain: slack
+description: Slack Web API method names, Block Kit element types, and event/payload type names
+version: "Slack Web API + Block Kit"
+tokens:
+  - actions
+  - app_home_opened
+  - app_mention
+  - "auth.test"
+  - block_actions
+  - button
+  - channel_created
+  - channels_select
+  - "chat.delete"
+  - "chat.postMessage"
+  - "chat.update"
+  - checkboxes
+  - context
+  - "conversations.history"
+  - "conversations.list"
+  - "conversations.open"
+  - conversations_select
+  - datepicker
+  - divider
+  - file
+  - "files.upload"
+  - "files.uploadV2"
+  - header
+  - image
+  - input
+  - member_joined_channel
+  - message
+  - multi_static_select
+  - overflow
+  - plain_text_input
+  - radio_buttons
+  - reaction_added
+  - reaction_removed
+  - "reactions.add"
+  - "reactions.remove"
+  - rich_text
+  - section
+  - slash_command
+  - static_select
+  - timepicker
+  - "users.info"
+  - "users.list"
+  - users_select
+  - video
+  - view_closed
+  - view_submission
+  - "views.open"
+  - "views.publish"
+  - "views.update"

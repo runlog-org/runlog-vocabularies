@@ -1,0 +1,19 @@
+protocol: cookies
+description: HTTP cookie attributes, SameSite values, and cookie name prefixes
+version: "RFC 6265bis"
+tokens:
+  - Cookie
+  - Domain
+  - Expires
+  - HttpOnly
+  - Lax
+  - Max-Age
+  - None
+  - Partitioned
+  - Path
+  - SameSite
+  - Secure
+  - Set-Cookie
+  - Strict
+  - __Host-
+  - __Secure-

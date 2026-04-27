@@ -1,0 +1,48 @@
+domain: svelte
+description: Svelte 5 special tags, template syntax, runes, special elements, and lifecycle/store APIs
+version: "Svelte 5"
+tokens:
+  - "#await"
+  - "#each"
+  - "#if"
+  - "#key"
+  - "$bindable"
+  - "$derived"
+  - "$effect"
+  - "$host"
+  - "$inspect"
+  - "$props"
+  - "$state"
+  - "/await"
+  - "/each"
+  - "/if"
+  - "/key"
+  - ":catch"
+  - ":else"
+  - ":else if"
+  - ":then"
+  - afterUpdate
+  - beforeUpdate
+  - derived
+  - fragment
+  - get
+  - getContext
+  - hasContext
+  - onDestroy
+  - onMount
+  - readable
+  - script
+  - setContext
+  - slot
+  - style
+  - "svelte:body"
+  - "svelte:component"
+  - "svelte:document"
+  - "svelte:element"
+  - "svelte:fragment"
+  - "svelte:head"
+  - "svelte:options"
+  - "svelte:self"
+  - "svelte:window"
+  - tick
+  - writable

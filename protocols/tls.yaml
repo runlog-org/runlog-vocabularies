@@ -1,0 +1,33 @@
+protocol: tls
+description: TLS 1.3 handshake messages, alerts, extensions, and cipher suite components
+version: "RFC 8446 (TLS 1.3)"
+tokens:
+  - AES_128_CCM_SHA256
+  - AES_128_GCM_SHA256
+  - AES_256_GCM_SHA384
+  - CHACHA20_POLY1305_SHA256
+  - Certificate
+  - CertificateVerify
+  - ClientHello
+  - EncryptedExtensions
+  - Finished
+  - HelloRetryRequest
+  - KeyUpdate
+  - NewSessionTicket
+  - ServerHello
+  - bad_record_mac
+  - certificate_expired
+  - close_notify
+  - decrypt_error
+  - fatal
+  - handshake_failure
+  - internal_error
+  - key_share
+  - pre_shared_key
+  - protocol_version
+  - psk_key_exchange_modes
+  - server_name
+  - signature_algorithms
+  - supported_versions
+  - unknown_ca
+  - warning

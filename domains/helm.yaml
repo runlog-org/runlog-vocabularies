@@ -1,0 +1,41 @@
+domain: helm
+description: Helm 3 Chart.yaml fields, template/values vocabulary, and CLI verbs
+version: "Helm v3"
+tokens:
+  - .Capabilities
+  - .Chart
+  - .Files
+  - .Release
+  - .Template
+  - .Values
+  - annotations
+  - apiVersion
+  - appVersion
+  - dependencies
+  - dependency
+  - deprecated
+  - description
+  - fromYaml
+  - home
+  - icon
+  - include
+  - install
+  - keywords
+  - kubeVersion
+  - lint
+  - list
+  - maintainers
+  - name
+  - package
+  - repo
+  - required
+  - rollback
+  - sources
+  - status
+  - toYaml
+  - tpl
+  - type
+  - uninstall
+  - upgrade
+  - values
+  - version
