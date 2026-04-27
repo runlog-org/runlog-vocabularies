@@ -1,5 +1,7 @@
 # Runlog Vocabularies — Allow-List Data
 
+> Part of the **[Runlog](https://github.com/runlog-org)** project — see the [project home](https://github.com/runlog-org) for the overview.
+
 **Repo:** [`runlog-org/runlog-vocabularies`](https://github.com/runlog-org/runlog-vocabularies) — public, CC-BY-SA-4.0 (this is data, not code)
 **Implements:** [`runlog-docs/05-sanitization.md`](https://github.com/runlog-org/runlog-docs/blob/main/05-sanitization.md) §8.1
 
