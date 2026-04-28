@@ -1,4 +1,4 @@
-domain: http
+protocol: http
 description: HTTP methods, standard headers, status codes, and common media types
 version: "1"
 tokens:
