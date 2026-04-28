@@ -2,7 +2,6 @@ domain: react
 description: React 18+ hooks, top-level APIs, and JSX-special prop names
 version: "React 18"
 tokens:
-  - Children
   - Fragment
   - Profiler
   - StrictMode

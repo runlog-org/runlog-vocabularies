@@ -59,8 +59,8 @@ tokens:
   - pytest
   - raise
   - range
-  - read
   - re
+  - read
   - replace
   - return
   - set

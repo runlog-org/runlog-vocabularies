@@ -2,7 +2,6 @@ domain: nodejs
 description: Node.js stdlib module names and Node-specific globals
 version: "Node.js 22 LTS"
 tokens:
-  - Buffer
   - __dirname
   - __filename
   - assert

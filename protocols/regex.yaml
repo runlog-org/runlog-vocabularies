@@ -4,9 +4,6 @@ version: "PCRE2 + POSIX"
 tokens:
   - A
   - D
-  - S
-  - U
-  - X
   - alnum
   - alpha
   - atomic

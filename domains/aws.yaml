@@ -4,7 +4,6 @@ version: "AWS SDK v3 / boto3 (general)"
 tokens:
   - AccessKeyId
   - Profile
-  - Region
   - ResourceArn
   - RoleArn
   - SecretAccessKey

@@ -6,7 +6,6 @@ tokens:
   - Boolean
   - Date
   - JSON
-  - Map
   - Math
   - Number
   - Object

@@ -10,7 +10,6 @@ tokens:
   - Pick
   - Promise
   - ReadonlyArray
-  - Readonly
   - Record
   - Required
   - Set

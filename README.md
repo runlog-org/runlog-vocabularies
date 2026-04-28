@@ -11,8 +11,9 @@ Community-PR'd. Each domain file documents its upstream source in the `version` 
 
 ## Layout
 
-- `domains/<tag>.yaml` — one file per domain; filename stem must match the `domain` field
-- `scripts/` — extractors that regenerate domain files from upstream documentation
+- `domains/<tag>.yaml` — per-domain vocabularies (languages, frameworks, services); filename stem must match the `domain` field
+- `protocols/<tag>.yaml` — per-protocol vocabularies (HTTP, OAuth, TLS, …); filename stem must match the `protocol` field
+- `scripts/` — extractors that regenerate vocabulary files from upstream documentation
 
 Each `domains/<tag>.yaml` has four fields:
 
@@ -25,7 +26,11 @@ tokens:                # flat list of allowed token strings
   - token_two
 ```
 
-New contributors: add a single YAML file at `domains/<tag>.yaml` following the shape above, plus a `scripts/generate-<tag>.sh` extractor so the list is reproducible. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
+`protocols/<tag>.yaml` is identical except the first field is `protocol:` instead of `domain:`. The category in `scope-registry.yaml` (e.g. `protocol`, `language`, `framework`) determines which directory a vocabulary belongs in.
+
+Token matching is **case-insensitive**: the loader lowercases every token at load time, so `Region` and `region` (or `SELECT` and `select`) collapse to a single allowed entry. Do not list a token in multiple cases — pick one canonical form (lowercase is conventional) and keep the file deduplicated.
+
+New contributors: add a single YAML file at `domains/<tag>.yaml` (or `protocols/<tag>.yaml` for a protocol) following the shape above, plus a `scripts/generate-<tag>.sh` extractor so the list is reproducible. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
 
 ## Scope Registry
 

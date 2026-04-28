@@ -2,8 +2,8 @@ protocol: jwt
 description: JWT, JWS, and JWE header claims and algorithm identifiers
 version: "1"
 tokens:
-  - EdDSA
   - ES256
+  - EdDSA
   - HS256
   - JWE
   - JWK

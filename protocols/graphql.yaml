@@ -15,8 +15,6 @@ tokens:
   - "__EnumValue"
   - "__Field"
   - "__InputValue"
-  - "__Schema"
-  - "__Type"
   - "__schema"
   - "__type"
   - "__typename"

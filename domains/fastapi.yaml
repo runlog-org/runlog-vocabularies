@@ -25,7 +25,6 @@ tokens:
   - Security
   - TrustedHostMiddleware
   - UploadFile
-  - WebSocket
   - WebSocketException
   - delete
   - get

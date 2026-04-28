@@ -29,7 +29,6 @@ tokens:
   - RPUSH
   - SADD
   - SCAN
-  - SET
   - SMEMBERS
   - SUBSCRIBE
   - TTL

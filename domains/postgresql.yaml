@@ -6,6 +6,8 @@ tokens:
   - ARRAY
   - BIGSERIAL
   - CONCURRENTLY
+  - CTE
+  - EXCLUSIVE
   - EXPLAIN
   - HASH
   - INHERITS
@@ -22,8 +24,6 @@ tokens:
   - SHARE
   - UUID
   - VACUUM
-  - CTE
-  - EXCLUSIVE
   - gen_random_uuid
   - information_schema
   - pg_catalog

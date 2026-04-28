@@ -18,9 +18,6 @@ tokens:
   - Requires
   - Restart
   - RestartSec
-  - Service
-  - Socket
-  - Timer
   - Type
   - Unit
   - User
