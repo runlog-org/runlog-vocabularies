@@ -39,3 +39,7 @@ New contributors: add a single YAML file at `domains/<tag>.yaml` (or `protocols/
 ## Contributing
 
 A new domain needs a `domains/<tag>.yaml` file (shape above) and a reproducible extractor (`scripts/generate-<tag>.sh`). PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
+
+## Releases
+
+Releases are tag-based — a maintainer pushes `vX.Y.Z` and GitHub Actions creates a Release with auto-generated notes. Downstream consumers should pin to a tag rather than tracking `main`. See [`RELEASING.md`](./RELEASING.md) for the full process.

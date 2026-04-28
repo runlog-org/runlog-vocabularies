@@ -1,0 +1,88 @@
+name: release
+
+# Tag-based release workflow for the runlog-vocabularies data repo.
+#
+# Unlike the runlog-verifier release workflow (which cross-compiles four
+# binaries and ships a SHA256SUMS manifest), this is a data repo: the only
+# artefact downstream consumers need is the source archive GitHub creates
+# automatically from the tag. So this workflow's job is narrower —
+# re-validate the data on the tag commit, then create the Release with
+# auto-generated notes. No tarballs of `domains/` or `protocols/`: those
+# would just duplicate what the source archive already contains.
+#
+# A maintainer cuts a release by pushing `vX.Y.Z`. `workflow_dispatch` is
+# wired up too as a manual smoke-run path that exercises the validator
+# without creating a Release (the `release` job's `if:` guard skips the
+# gh-release step when the trigger isn't a tag push).
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pre-flight:
+    # Re-run the same validator the CI workflow uses on push/PR. Catching
+    # a broken `tokens:` shape or a vocab file referencing an unregistered
+    # tag here, before the Release is created, is much cheaper than
+    # publishing a tag, discovering breakage downstream, and yanking it.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install validator deps
+        run: pip install --upgrade pyyaml
+      - name: Validate vocabularies (all checks)
+        run: python3 scripts/validate_vocabularies.py --check all
+
+  release:
+    needs: pre-flight
+    # Only create the Release on an actual tag push. A workflow_dispatch
+    # run gets the validator pass above but stops short of publishing —
+    # useful for verifying the workflow itself is healthy without burning
+    # a version number.
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # required for softprops/action-gh-release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so generate_release_notes can compute the
+          # commit/PR delta from the previous tag.
+          fetch-depth: 0
+
+      - name: Resolve prerelease flag
+        id: meta
+        run: |
+          ref="${GITHUB_REF##*/}"
+          # Tags like v0.1.0-rc1, v0.1.0-beta2, v0.1.0-alpha1 publish as
+          # prereleases (visible but flagged); plain semver tags publish
+          # as full releases. The verifier workflow uses `draft` for the
+          # same partition — we use `prerelease` instead because data
+          # consumers benefit from seeing the tag exist (so they can pin
+          # to it for testing) without it being treated as the latest.
+          case "$ref" in
+            *-rc*|*-beta*|*-alpha*) echo "prerelease=true"  >> "$GITHUB_OUTPUT" ;;
+            *)                      echo "prerelease=false" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # `name` defaults to the tag, `tag_name` defaults to the pushed
+          # ref — both implicit. No `files:` block: the source archive
+          # GitHub auto-attaches is the only artefact for a data repo.
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ steps.meta.outputs.prerelease == 'true' }}
