@@ -1,0 +1,15 @@
+# Code ownership for runlog-vocabularies.
+#
+# Vocabulary data is consumed by both the runlog server (sanitizer) and the
+# verifier (pre-sign check) — a malicious or careless edit here would
+# weaken the default-deny gate for every Runlog submission. So every change
+# to allow-list data, the scope registry, or the validator gets owner
+# review before merge. The catch-all `*` rule covers anything not matched
+# by a more specific pattern (workflows, README, LICENSE, scripts).
+
+*                                          @l4ci
+domains/                                   @l4ci
+protocols/                                 @l4ci
+scope-registry.yaml                        @l4ci
+scripts/validate_vocabularies.py           @l4ci
+.github/workflows/                         @l4ci
