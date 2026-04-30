@@ -42,12 +42,10 @@ contract.
 
 ## Versioning policy
 
-The current registry shape (`scope-registry.yaml`'s top-level keys,
-`domains/*.yaml` and `protocols/*.yaml` field names) is stable. New
-domain or protocol files are additive and ship as MINOR bumps. A
-breaking shape change — renaming a field, removing a tag, restructuring
-the registry — warrants a MAJOR bump and should be flagged in the
-release notes.
+See step 2 above for the bump rules (additive → MINOR/PATCH, breaking
+shape change → MAJOR). Restructuring the registry — beyond renaming a
+field or removing a tag — also warrants a MAJOR bump and should be
+flagged explicitly in the release notes.
 
 There is no `VERSION` file at the repo root: the git tag is the
 authoritative version. If a script needs the current version
