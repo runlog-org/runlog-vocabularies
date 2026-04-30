@@ -13,11 +13,15 @@ Four hard checks plus two informational warnings:
    Every per-domain / per-protocol file's declared tag (the ``domain:`` or
    ``protocol:`` field, falling back to the filename stem — same fallback
    the consumer uses in ``runlog.sanitize.allowlist.load_vocabulary``) must
-   appear as a tag in ``scope-registry.yaml``. The reverse direction — a
-   registry tag lacking a vocabulary file — is intentionally NOT a CI
-   failure: the registry is broader than the vocabulary by design (227
-   tags vs. 70 files today; ``report_vocab_coverage()`` exposes the gap as
-   a soft signal). Hard-failing on it would bottleneck registry growth on
+   appear as a tag in ``scope-registry.yaml``. As part of loading the
+   registry we also gate every entry's ``category:`` against
+   ``ALLOWED_CATEGORIES`` (see top of file) — the consumer side does no
+   such enum check, so a typo like ``framewrok`` would otherwise land
+   silently and weaken human review. The reverse direction — a registry
+   tag lacking a vocabulary file — is intentionally NOT a CI failure:
+   the registry is broader than the vocabulary by design (227 tags vs.
+   70 files today; ``report_vocab_coverage()`` exposes the gap as a soft
+   signal). Hard-failing on it would bottleneck registry growth on
    token-list curation.
 
 3. ``vocabulary-shape``
@@ -141,6 +145,27 @@ CREDENTIAL_MARKERS = (
 # "common" file or got copy-pasted across vocabs by accident.
 CROSS_FILE_COLLISION_THRESHOLD = 3
 
+# Allowed values for the per-tag ``category`` field in scope-registry.yaml.
+# Mirrors the schema documented at the top of that file. The registry
+# loader on the consumer side does not validate this enum — it just
+# stores whatever string is there — so a typo like ``framewrok`` would
+# silently land in production and weaken human review of new
+# submissions. Hard-failing here closes that gap before the data ships.
+# Update both this set and the comment block in scope-registry.yaml
+# together when introducing a new category.
+ALLOWED_CATEGORIES = frozenset({
+    "language",
+    "runtime",
+    "framework",
+    "database",
+    "cloud",
+    "tooling",
+    "protocol",
+    "saas",
+    "concept",
+    "other",
+})
+
 
 def _rel(p: pathlib.Path) -> str:
     """Repo-relative path string for stable, grep-able log output."""
@@ -199,6 +224,13 @@ def _registry_tags(registry: Any, registry_path: pathlib.Path) -> set[str]:
                     f"{_rel(registry_path)}: entry [{i}] missing required "
                     f"field {required!r}"
                 )
+        category = str(item["category"]).lower()
+        if category not in ALLOWED_CATEGORIES:
+            raise RuntimeError(
+                f"{_rel(registry_path)}: entry [{i}] tag={item['tag']!r} has "
+                f"category={category!r} not in allowed set "
+                f"{sorted(ALLOWED_CATEGORIES)}"
+            )
         tags.add(str(item["tag"]).lower())
     return tags
 

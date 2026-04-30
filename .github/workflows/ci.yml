@@ -13,32 +13,29 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# All four jobs share scripts/validate_vocabularies.py — same code path
-# devs run locally, same code path the gate runs. Splitting into separate
-# jobs (rather than one job with multiple steps) gives CI a separable
-# failure surface: a broken `tokens:` shape doesn't mask a YAML parse
-# error in the run log, and Required Status Checks can target each one
-# independently. Re-parsing 70 small YAML files four times takes <1s
-# total, which is a fine price for that separation.
+# All checks share scripts/validate_vocabularies.py — the same code path
+# devs run locally is the same code path the gate runs. Splitting into
+# parallel matrix jobs (rather than one job with sequential steps) gives
+# CI a separable failure surface: a broken `tokens:` shape doesn't mask a
+# YAML parse error in the run log, and Required Status Checks can target
+# each one independently. Re-parsing 70 small YAML files four times takes
+# <1s per job, which is a fine price for that separation.
 #
-# The four jobs correspond to the four failure modes we care about:
-#   1. validate-yaml          — a malformed *.yaml anywhere in the repo.
-#   2. registry-consistency   — a vocab file whose declared tag is not
-#                               in scope-registry.yaml. The consumer's
-#                               load_vocabulary would attach tokens to a
-#                               "domain" the scope-rule gate does not
-#                               recognize as public — silent breakage.
-#   3. vocabulary-shape-smoke — a missing or non-list `tokens:` field.
-#                               The consumer silently degrades to an
-#                               empty allow-list, which would let
-#                               undeclared tokens through unchallenged.
-#   4. token-hygiene          — duplicate tokens within a file (case-
-#                               insensitive) and non-ASCII bytes
-#                               (homoglyph defence). Cross-file
-#                               collisions, credential markers, and
-#                               unmatchable-token reports are emitted as
-#                               WARNINGS only and do not affect the
-#                               exit code.
+# The four matrix entries correspond to the four failure modes we care
+# about:
+#   1. parse     — a malformed *.yaml anywhere in the repo.
+#   2. registry  — a vocab file whose declared tag is not in
+#                  scope-registry.yaml. The consumer's load_vocabulary
+#                  would attach tokens to a "domain" the scope-rule gate
+#                  does not recognize as public — silent breakage.
+#   3. shape     — a missing or non-list `tokens:` field. The consumer
+#                  silently degrades to an empty allow-list, which would
+#                  let undeclared tokens through unchallenged.
+#   4. tokens    — duplicate tokens within a file (case-insensitive) and
+#                  non-ASCII bytes (homoglyph defence). Cross-file
+#                  collisions, credential markers, and unmatchable-token
+#                  reports are emitted as WARNINGS only and do not affect
+#                  the exit code.
 #
 # Reverse-direction directionality (registry tag without a vocab file)
 # is intentionally NOT a CI failure here: the registry is much broader
@@ -52,10 +49,25 @@ concurrency:
 # the SHA and the trailing comment together. SHAs below resolve to:
 #   actions/checkout@v4         -> 34e114876b0b11c390a56381ad16ebd13914f8d5
 #   actions/setup-python@v5     -> a26af69be951a213d495a4c3e4e4022e16d87065
+#
+# `${{ matrix.check }}` is interpolated into a `run:` step below. This
+# is safe (not a command-injection vector) because the value is sourced
+# from the literal matrix list — `parse | registry | shape | tokens` —
+# not from any untrusted github.event.* field. The validator further
+# restricts --check to a fixed argparse choices set.
 
 jobs:
-  validate-yaml:
+  validate:
+    name: validate (${{ matrix.check }})
     runs-on: ubuntu-latest
+    strategy:
+      # fail-fast: false so one broken check still surfaces the others in
+      # the same CI run — a contributor fixing a parse error wants to see
+      # the registry / shape / tokens results too, not chase failures one
+      # by one across re-pushes.
+      fail-fast: false
+      matrix:
+        check: [parse, registry, shape, tokens]
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
@@ -64,44 +76,7 @@ jobs:
           cache: pip
       - name: Install validator deps
         run: pip install --upgrade pyyaml
-      - name: Parse all *.yaml under repo root
-        run: python3 scripts/validate_vocabularies.py --check parse
-
-  registry-consistency:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
-        with:
-          python-version: "3.12"
-          cache: pip
-      - name: Install validator deps
-        run: pip install --upgrade pyyaml
-      - name: Every vocab file's tag must be in scope-registry.yaml
-        run: python3 scripts/validate_vocabularies.py --check registry
-
-  vocabulary-shape-smoke:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
-        with:
-          python-version: "3.12"
-          cache: pip
-      - name: Install validator deps
-        run: pip install --upgrade pyyaml
-      - name: Every vocab file must declare a tokens list
-        run: python3 scripts/validate_vocabularies.py --check shape
-
-  token-hygiene:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
-        with:
-          python-version: "3.12"
-          cache: pip
-      - name: Install validator deps
-        run: pip install --upgrade pyyaml
-      - name: Per-file token hygiene (no duplicates, ASCII-only)
-        run: python3 scripts/validate_vocabularies.py --check tokens
+      - name: Run validator
+        env:
+          CHECK: ${{ matrix.check }}
+        run: python3 scripts/validate_vocabularies.py --check "$CHECK"

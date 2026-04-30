@@ -7,7 +7,7 @@
 
 Registered stdlib identifiers, framework-public APIs, and protocol tokens per domain. The server's allow-list tokenizer and the verifier's pre-sign check both consume these files to decide whether a submission's tokens are permissible without a declared-literal wrapper.
 
-Community-PR'd. Each domain file documents its upstream source in the `version` field so the token list is reproducible. Periodic audits re-run extractors and flag drift against the live sources.
+Community-PR'd. Each domain file documents its upstream source in the `version` field so the token list is reproducible. When an extractor exists, periodic audits re-run it and flag drift against the live sources; vocabularies curated by hand carry the same `version` for human-review traceability.
 
 ## Layout
 
@@ -30,7 +30,7 @@ tokens:                # flat list of allowed token strings
 
 Token matching is **case-insensitive**: the loader lowercases every token at load time, so `Region` and `region` (or `SELECT` and `select`) collapse to a single allowed entry. Do not list a token in multiple cases — pick one canonical form (lowercase is conventional) and keep the file deduplicated.
 
-New contributors: add a single YAML file at `domains/<tag>.yaml` (or `protocols/<tag>.yaml` for a protocol) following the shape above, plus a `scripts/generate-<tag>.sh` extractor so the list is reproducible. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
+New contributors: add a single YAML file at `domains/<tag>.yaml` (or `protocols/<tag>.yaml` for a protocol) following the shape above. A reproducible extractor at `scripts/generate-<tag>.sh` is encouraged when the upstream source has a stable machine-readable form (stdlib reference, OpenAPI spec, RFC IANA registry); hand-curated lists are fine when no such source exists. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
 
 ## Scope Registry
 
@@ -38,7 +38,7 @@ New contributors: add a single YAML file at `domains/<tag>.yaml` (or `protocols/
 
 ## Contributing
 
-A new domain needs a `domains/<tag>.yaml` file (shape above) and a reproducible extractor (`scripts/generate-<tag>.sh`). PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
+A new domain needs a `domains/<tag>.yaml` file (shape above) plus a corresponding entry in `scope-registry.yaml`; an extractor at `scripts/generate-<tag>.sh` is encouraged but not required. PRs must pass the allow-list validator (no PII, no vendor-specific strings, no duplicates).
 
 ## Releases
 

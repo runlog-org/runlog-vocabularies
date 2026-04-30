@@ -3,13 +3,14 @@
 # Vocabulary data is consumed by both the runlog server (sanitizer) and the
 # verifier (pre-sign check) — a malicious or careless edit here would
 # weaken the default-deny gate for every Runlog submission. So every change
-# to allow-list data, the scope registry, or the validator gets owner
-# review before merge. The catch-all `*` rule covers anything not matched
-# by a more specific pattern (workflows, README, LICENSE, scripts).
+# to allow-list data, the scope registry, the validator, and CI configuration
+# gets owner review before merge.
+#
+# A single catch-all rule is sufficient for a single-owner repo: per-path
+# entries pointing to the same owner add no review-routing value and
+# silently drift out of sync as the layout grows. Re-introduce per-path
+# rules only when ownership genuinely diverges (e.g. a domain-expert
+# co-owner for `protocols/` while `domains/` stays with the original
+# maintainer).
 
-*                                          @l4ci
-domains/                                   @l4ci
-protocols/                                 @l4ci
-scope-registry.yaml                        @l4ci
-scripts/validate_vocabularies.py           @l4ci
-.github/workflows/                         @l4ci
+* @l4ci
