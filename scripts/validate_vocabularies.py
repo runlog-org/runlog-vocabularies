@@ -90,13 +90,6 @@ of truth for the validator itself. Registry, shape, and tokens all
 depend on a parsed-YAML map, so they each re-run the parse step
 internally — that's a few-millisecond cost we accept to keep the script
 self-contained.
-
-TODO(extractor-gate): the README also requires a
-``scripts/generate-<tag>.sh`` extractor for every new domain. Wiring
-that up here (cross-checking ``domains/*.yaml`` against the script
-glob) requires deeper restructuring of how scripts are named and is
-left for a follow-up. Until then PR review is the only gate on that
-contract.
 """
 
 from __future__ import annotations

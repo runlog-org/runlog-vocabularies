@@ -469,12 +469,17 @@ domains:
   - tag: policy-evaluation
     category: concept
     description: "Policy evaluation — concept covering rule-based access control and authorization policy engines."
+  # `postgres` and `postgresql` are intentionally kept as separate tags
+  # pointing at the same product. Consumers in the wild submit under both
+  # spellings; collapsing them would silently break clients pinned to either
+  # form. A future deprecation cycle (alias map + warning) is the right
+  # mechanism for removal — not a quiet edit here.
   - tag: postgres
     category: database
-    description: "PostgreSQL (postgres) — open-source object-relational database system."
+    description: "PostgreSQL (postgres) — open-source object-relational database system. Alias of `postgresql`; both are kept for client-stability."
   - tag: postgresql
     category: database
-    description: "PostgreSQL — advanced open-source relational database with extensive SQL compliance and extensions."
+    description: "PostgreSQL — advanced open-source relational database with extensive SQL compliance and extensions. Alias of `postgres`; both are kept for client-stability."
   - tag: protobuf
     category: protocol
     description: "Protocol Buffers (protobuf) — Google's language-neutral binary serialization format."
