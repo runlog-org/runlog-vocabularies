@@ -4,7 +4,7 @@
 Mirrors what the consumer (runlog server) loads at startup so that breakage
 is caught here, in a CI gate on this repo, before it can poison production.
 
-Four hard checks plus two informational warnings:
+Five hard checks plus two informational warnings:
 
 1. ``yaml-parse``
    Every ``*.yaml`` file in the repo must parse via ``yaml.safe_load``.
@@ -29,7 +29,9 @@ Four hard checks plus two informational warnings:
    field that is a list. This is the consumer's load-bearing contract from
    ``allowlist.load_vocabulary``. Token-content / cross-file schema
    validation is out of scope for this repo — that belongs to the
-   ``runlog-schema`` repo.
+   ``runlog-schema`` repo. Also gates the ``version:`` field: missing,
+   empty, or placeholder value ``"1"`` is a hard failure (README §10
+   requires a real upstream-version identifier).
 
 4. ``token-hygiene``
    Per-file content gates added to enforce the README contract
@@ -72,6 +74,12 @@ Four hard checks plus two informational warnings:
      (and probably belongs in a shared "common" file) or a copy-paste
      error during PR review.
 
+5. ``ordering``
+   Every ``domains/*.yaml`` and ``protocols/*.yaml`` token list must be in
+   ASCII byte-order (Python's default ``sorted()`` / ``LC_ALL=C sort``).
+   All 70 current files comply; this is a no-op on green main and a hard
+   stop on a drifting PR.
+
 Run locally:
 
     python3 scripts/validate_vocabularies.py            # all checks
@@ -79,6 +87,7 @@ Run locally:
     python3 scripts/validate_vocabularies.py --check registry
     python3 scripts/validate_vocabularies.py --check shape
     python3 scripts/validate_vocabularies.py --check tokens
+    python3 scripts/validate_vocabularies.py --check ordering
 
 Exit code is 0 on success, 1 on any hard failure. Per-file PASS/FAIL lines
 are printed to stdout so the output is grep-able in CI logs. WARNING
@@ -318,6 +327,19 @@ def check_vocabulary_shape(parsed: dict[pathlib.Path, Any]) -> int:
                 )
                 failures += 1
                 continue
+            # Version gate (HARD FAIL). An undocumented ``version: "1"``
+            # placeholder defeats the contributor-traceability claim in
+            # README §10 — every file must declare a real upstream identifier.
+            version_val = data.get("version")
+            if not version_val or str(version_val) == "1":
+                print(
+                    f"FAIL {_rel(path)}: 'version' is missing/placeholder "
+                    f"({version_val!r}); README §10 requires a real "
+                    f"upstream-version identifier (e.g. \"Python 3.13 stdlib\", "
+                    f"\"RFC 8446 (TLS 1.3)\")"
+                )
+                failures += 1
+                continue
             print(f"PASS {_rel(path)}: tokens=[{len(data['tokens'])}]")
     return failures
 
@@ -484,11 +506,68 @@ def check_token_hygiene(parsed: dict[pathlib.Path, Any], verbose: bool = False) 
     return failures
 
 
+def check_ordering(parsed: dict[pathlib.Path, Any]) -> int:
+    """Every vocab token list must be in ASCII byte-order.
+
+    Policy rationale:
+
+    * **Review experience** — PR diffs are unreviewable when a contributor
+      inserts a token at the natural alphabetic spot but the file is sorted
+      in ASCII byte-order (e.g. uppercase before lowercase). A strict
+      ordering policy means every single-token addition shows as exactly
+      one new line at a predictable position; reviewers can confirm
+      placement at a glance.
+
+    * **Determinism across locales** — Python's default ``sorted()`` is
+      equivalent to ``LC_ALL=C sort`` in shell: comparison is by Unicode
+      code-point (which for ASCII-only tokens is identical to byte value).
+      This is independent of the host locale, so CI on any machine
+      produces the same result as a contributor's local check.
+
+    * **No-op on green main, hard stop on a drifting PR** — all 70 current
+      files are already ASCII-sorted (verified during the ordering audit).
+      Adding this gate costs nothing on a clean tree and gives an
+      immediate, precise failure message (index + token pair) when a
+      future PR introduces a mis-ordered insertion.
+    """
+    print("\n=== ordering ===")
+    failures = 0
+    for vocab_dir in (DOMAINS_DIR, PROTOCOLS_DIR):
+        for path in sorted(vocab_dir.glob("*.yaml")):
+            data = parsed.get(path)
+            if not isinstance(data, dict):
+                # Shape check already flagged this; skip to avoid noise.
+                continue
+            tokens = data.get("tokens")
+            if not isinstance(tokens, list):
+                # Shape check already flagged this; skip to avoid noise.
+                continue
+            str_tokens = [str(t) for t in tokens]
+            expected = sorted(str_tokens)
+            if str_tokens != expected:
+                # Find the first divergence for a precise error message.
+                for i, (got, want) in enumerate(zip(str_tokens, expected)):
+                    if got != want:
+                        print(
+                            f"FAIL {_rel(path)}: tokens not in ASCII "
+                            f"byte-order; first divergence at index {i} "
+                            f"(got {got!r}, expected {want!r})"
+                        )
+                        break
+                failures += 1
+            else:
+                print(
+                    f"PASS {_rel(path)}: tokens=[{len(str_tokens)}] "
+                    f"ASCII-sorted"
+                )
+    return failures
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
     parser.add_argument(
         "--check",
-        choices=("all", "parse", "registry", "shape", "tokens"),
+        choices=("all", "parse", "registry", "shape", "tokens", "ordering"),
         default="all",
         help="Which check to run (default: all).",
     )
@@ -516,6 +595,7 @@ def main(argv: list[str] | None = None) -> int:
     registry_failures = 0
     shape_failures = 0
     token_failures = 0
+    ordering_failures = 0
 
     if args.check in ("all", "registry"):
         registry_failures = check_registry_consistency(parsed)
@@ -523,6 +603,8 @@ def main(argv: list[str] | None = None) -> int:
         shape_failures = check_vocabulary_shape(parsed)
     if args.check in ("all", "tokens"):
         token_failures = check_token_hygiene(parsed, verbose=args.verbose)
+    if args.check in ("all", "ordering"):
+        ordering_failures = check_ordering(parsed)
 
     if args.check == "parse":
         total = parse_failures
@@ -532,15 +614,19 @@ def main(argv: list[str] | None = None) -> int:
         total = shape_failures
     elif args.check == "tokens":
         total = token_failures
+    elif args.check == "ordering":
+        total = ordering_failures
     else:
         total = (
-            parse_failures + registry_failures + shape_failures + token_failures
+            parse_failures + registry_failures + shape_failures
+            + token_failures + ordering_failures
         )
 
     print(
         f"\nsummary: check={args.check} parse={parse_failures} "
         f"registry={registry_failures} shape={shape_failures} "
-        f"tokens={token_failures} total_failed={total}"
+        f"tokens={token_failures} ordering={ordering_failures} "
+        f"total_failed={total}"
     )
     return 0 if total == 0 else 1
 
