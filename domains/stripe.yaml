@@ -1,6 +1,6 @@
 domain: stripe
 description: Stripe public API object names and common parameter keys
-version: "1"
+version: "Stripe API 2024-04-10"
 tokens:
   - automatic_payment_methods
   - balance_transaction

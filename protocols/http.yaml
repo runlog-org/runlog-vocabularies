@@ -1,6 +1,6 @@
 protocol: http
 description: HTTP methods, standard headers, status codes, and common media types
-version: "1"
+version: "RFC 9110 + IANA Media Types"
 tokens:
   - "200"
   - "201"

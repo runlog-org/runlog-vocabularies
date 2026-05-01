@@ -1,6 +1,6 @@
 protocol: oauth2
 description: OAuth 2.0 and PKCE parameter names and token types
-version: "1"
+version: "RFC 6749 + RFC 7636 (OAuth 2.0)"
 tokens:
   - Bearer
   - S256

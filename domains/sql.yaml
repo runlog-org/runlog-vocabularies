@@ -1,6 +1,6 @@
 domain: sql
 description: Standard SQL keywords, aggregate functions, and common data types
-version: "1"
+version: "SQL:2016 (ISO/IEC 9075)"
 tokens:
   - alter
   - and

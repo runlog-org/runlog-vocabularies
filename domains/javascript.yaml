@@ -1,6 +1,6 @@
 domain: javascript
 description: JavaScript globals, keywords, DOM/Node names, and common array/promise methods
-version: "1"
+version: "ECMAScript 2024 + WHATWG DOM"
 tokens:
   - Array
   - Boolean

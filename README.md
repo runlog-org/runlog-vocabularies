@@ -7,7 +7,7 @@
 
 Registered stdlib identifiers, framework-public APIs, and protocol tokens per domain. The server's allow-list tokenizer and the verifier's pre-sign check both consume these files to decide whether a submission's tokens are permissible without a declared-literal wrapper.
 
-Community-PR'd. Each domain file documents its upstream source in the `version` field so the token list is reproducible — vocabularies curated by hand carry the `version` for human-review traceability, and any contributor-supplied extractor can re-run against that pinned upstream when an audit is needed.
+Community-PR'd. Each domain file documents its upstream source in the `version` field so the token list is reproducible — vocabularies curated by hand carry the `version` for human-review traceability, and any contributor-supplied extractor can re-run against that pinned upstream when an audit is needed. Placeholder values such as `"1"` are rejected by the producer-side validator — every file must declare a real upstream identifier (a release tag, RFC number, or dated API version).
 
 ## Layout
 
@@ -29,6 +29,10 @@ tokens:                # flat list of allowed token strings
 `protocols/<tag>.yaml` is identical except the first field is `protocol:` instead of `domain:`. The category in `scope-registry.yaml` (e.g. `protocol`, `language`, `framework`) determines which directory a vocabulary belongs in.
 
 Token matching is **case-insensitive**: the loader lowercases every token at load time, so `Region` and `region` (or `SELECT` and `select`) collapse to a single allowed entry. Do not list a token in multiple cases — pick one canonical form (lowercase is conventional) and keep the file deduplicated.
+
+### Token ordering
+
+Tokens within a file MUST be sorted in ASCII byte order (`LC_ALL=C sort`, equivalent to Python's default `sorted()`). The validator's `--check ordering` gate hard-fails on any deviation. This makes PR diffs reviewable when a contributor adds a single token (insertion shows as exactly one new line at the right position) and is locale-independent. Use `LC_ALL=C sort -o domains/<tag>.yaml` (after extracting the tokens list) or rely on the validator's failure message to locate the divergence.
 
 ## Scope Registry
 
