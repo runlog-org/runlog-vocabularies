@@ -1,6 +1,6 @@
 domain: postgresql
 description: PostgreSQL-specific extensions beyond standard SQL
-version: "1"
+version: "PostgreSQL 16"
 tokens:
   - ANALYZE
   - ARRAY

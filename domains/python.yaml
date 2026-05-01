@@ -1,6 +1,6 @@
 domain: python
 description: Python builtins, keywords, stdlib modules, and common method names
-version: "1"
+version: "Python 3.13 stdlib"
 tokens:
   - "False"
   - "None"

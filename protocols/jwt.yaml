@@ -1,6 +1,6 @@
 protocol: jwt
 description: JWT, JWS, and JWE header claims and algorithm identifiers
-version: "1"
+version: "RFC 7519 + RFC 7515 + RFC 7516 + RFC 7518"
 tokens:
   - ES256
   - EdDSA

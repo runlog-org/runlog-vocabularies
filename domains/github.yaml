@@ -1,6 +1,6 @@
 domain: github
 description: GitHub API and Actions nouns, workflow keys, and UI concepts
-version: "1"
+version: "GitHub REST API 2022-11-28 + Actions"
 tokens:
   - actions
   - branch

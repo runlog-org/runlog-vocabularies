@@ -1,6 +1,6 @@
 domain: typescript
 description: TypeScript-specific keywords and utility types (use alongside javascript domain)
-version: "1"
+version: "TypeScript 5.4"
 tokens:
   - Array
   - Awaited
