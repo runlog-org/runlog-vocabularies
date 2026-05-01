@@ -236,11 +236,10 @@ def check_registry_consistency(parsed: dict[pathlib.Path, Any]) -> int:
       2. its ``protocol:`` field (for protocols/*.yaml),
       3. the filename stem (consumer fallback in ``load_vocabulary``).
 
-    Mismatch on (1)/(2) vs. the filename — also a real bug — is caught
-    incidentally because both names must independently resolve into the
-    registry. We don't fail on declared-vs-stem disagreement explicitly
-    here; the README already mandates filename == declared tag, and that
-    constraint is one PR-review check away.
+    When a ``domain:`` / ``protocol:`` field is present and does not match
+    the filename stem, that is a hard failure: the README mandates they
+    agree, and a silent mismatch would attach tokens to the wrong scope tag
+    at runtime.
     """
     print("\n=== registry-consistency ===")
     if REGISTRY_PATH not in parsed:
@@ -262,7 +261,20 @@ def check_registry_consistency(parsed: dict[pathlib.Path, Any]) -> int:
                 # a mapping. Either way, the per-file shape job will flag it
                 # and we can't extract a tag here — skip.
                 continue
-            declared = data.get(declared_key) or path.stem
+
+            declared_raw = data.get(declared_key)
+            # README mandates: filename stem must match the declared field.
+            # Only enforce when the field is explicitly present — if it's
+            # absent the consumer falls back to the stem, which the
+            # registry-membership check below handles.
+            if declared_raw is not None and str(declared_raw).lower() != path.stem.lower():
+                print(
+                    f"FAIL {_rel(path)}: filename stem {path.stem!r} must "
+                    f"match declared {declared_key}={str(declared_raw)!r}"
+                )
+                failures += 1
+
+            declared = declared_raw or path.stem
             tag = str(declared).lower()
             if tag not in tags:
                 print(
@@ -310,7 +322,7 @@ def check_vocabulary_shape(parsed: dict[pathlib.Path, Any]) -> int:
     return failures
 
 
-def check_token_hygiene(parsed: dict[pathlib.Path, Any]) -> int:
+def check_token_hygiene(parsed: dict[pathlib.Path, Any], verbose: bool = False) -> int:
     """Per-file content gates plus cross-file informational warnings.
 
     Hard fails on duplicate tokens (case-insensitive within a file) and
@@ -318,9 +330,12 @@ def check_token_hygiene(parsed: dict[pathlib.Path, Any]) -> int:
     consumer regex can't match, and tokens that appear in many files.
 
     Returns the count of HARD failures only — warnings never affect the
-    exit code. We deliberately keep the warning surface noisy in the log
-    so curation drift is visible on every CI run, even when the gate is
-    green.
+    exit code.
+
+    By default the unmatchable-token and cross-file-collision warning
+    surfaces are collapsed to a single summary line each so CI runs stay
+    scannable. Pass ``verbose=True`` (``--verbose`` on the CLI) to restore
+    the full per-token listing.
     """
     print("\n=== token-hygiene ===")
     failures = 0
@@ -328,6 +343,9 @@ def check_token_hygiene(parsed: dict[pathlib.Path, Any]) -> int:
     # token (lowercased) -> list of files it appears in. Used at the end
     # of the function for the cross-file collision warning.
     token_files: dict[str, list[str]] = collections.defaultdict(list)
+    # Unmatchable tokens collected for the summary / verbose listing.
+    # Each entry is (file_rel, token) for stable ordering.
+    unmatchable: list[tuple[str, str]] = []
 
     for vocab_dir in (DOMAINS_DIR, PROTOCOLS_DIR):
         for path in sorted(vocab_dir.glob("*.yaml")):
@@ -393,15 +411,10 @@ def check_token_hygiene(parsed: dict[pathlib.Path, Any]) -> int:
                 # Unmatchable-token report (WARNING). Tokens the
                 # consumer regex won't match are dead at runtime; we
                 # keep them as a forward-compat reservation but make
-                # the dead pile visible.
+                # the dead pile visible. Collected here; emitted below
+                # as a summary line (or per-token with --verbose).
                 if not CONSUMER_TOKEN_RE.match(token):
-                    print(
-                        f"WARN {_rel(path)}: token {token!r} is unmatchable "
-                        f"by the consumer tokenizer regex "
-                        f"[A-Za-z_][A-Za-z0-9_-]{{2,}} (kept for future "
-                        f"tokenizer expansion)"
-                    )
-                    warnings += 1
+                    unmatchable.append((_rel(path), token))
                     file_warned = True
 
                 # Track for the cross-file collision pass below. We
@@ -416,22 +429,52 @@ def check_token_hygiene(parsed: dict[pathlib.Path, Any]) -> int:
                     f"unique=[{len(seen_lower)}]{marker}"
                 )
 
+    # Unmatchable-token summary / verbose listing.
+    if unmatchable:
+        warnings += len(unmatchable)
+        if verbose:
+            for file_rel, token in unmatchable:
+                print(
+                    f"WARN {file_rel}: token {token!r} is unmatchable "
+                    f"by the consumer tokenizer regex "
+                    f"[A-Za-z_][A-Za-z0-9_-]{{2,}} (kept for future "
+                    f"tokenizer expansion)"
+                )
+        else:
+            files_with_unmatchable = len({f for f, _ in unmatchable})
+            print(
+                f"WARN: {len(unmatchable)} unmatchable tokens across "
+                f"{files_with_unmatchable} files "
+                f"(run with --verbose for details)"
+            )
+
     # Cross-file collision report (WARNING). One line per offending
-    # token, listing every file it appears in. Sorted for stable output.
+    # token (verbose) or a single summary line (default). Sorted for
+    # stable output.
     print("\n--- cross-file collisions ---")
-    collisions = 0
+    collision_entries: list[tuple[str, list[str]]] = []
     for lowered, files in sorted(token_files.items()):
         # Dedup files (a token can appear once per file at this point;
         # duplicates within a file already hard-failed) and threshold.
         unique_files = sorted(set(files))
         if len(unique_files) >= CROSS_FILE_COLLISION_THRESHOLD:
+            collision_entries.append((lowered, unique_files))
+
+    if collision_entries:
+        warnings += len(collision_entries)
+        if verbose:
+            for lowered, unique_files in collision_entries:
+                print(
+                    f"WARN token {lowered!r} appears in {len(unique_files)} "
+                    f"files: {', '.join(unique_files)}"
+                )
+        else:
             print(
-                f"WARN token {lowered!r} appears in {len(unique_files)} "
-                f"files: {', '.join(unique_files)}"
+                f"WARN: {len(collision_entries)} cross-file collisions at "
+                f"threshold {CROSS_FILE_COLLISION_THRESHOLD}+ "
+                f"(run with --verbose for details)"
             )
-            warnings += 1
-            collisions += 1
-    if collisions == 0:
+    else:
         print(
             f"no tokens appear in {CROSS_FILE_COLLISION_THRESHOLD} or more "
             f"files"
@@ -448,6 +491,16 @@ def main(argv: list[str] | None = None) -> int:
         choices=("all", "parse", "registry", "shape", "tokens"),
         default="all",
         help="Which check to run (default: all).",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        default=False,
+        help=(
+            "Emit full per-token warning listings for unmatchable tokens and "
+            "cross-file collisions. By default these are collapsed to a single "
+            "summary line each so CI output stays scannable."
+        ),
     )
     args = parser.parse_args(argv)
 
@@ -469,7 +522,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.check in ("all", "shape"):
         shape_failures = check_vocabulary_shape(parsed)
     if args.check in ("all", "tokens"):
-        token_failures = check_token_hygiene(parsed)
+        token_failures = check_token_hygiene(parsed, verbose=args.verbose)
 
     if args.check == "parse":
         total = parse_failures
