@@ -10,14 +10,24 @@ name: release
 # auto-generated notes. No tarballs of `domains/` or `protocols/`: those
 # would just duplicate what the source archive already contains.
 #
-# A maintainer cuts a release by pushing `vX.Y.Z`. `workflow_dispatch` is
-# wired up too as a manual smoke-run path that exercises the validator
+# A maintainer cuts a release by pushing `vocabularies/vX.Y.Z` (the new
+# path-scoped convention per the M02 release-train discipline). The
+# legacy `vX.Y.Z` shape continues to fire the workflow too, as a soft
+# cut: published tags like v0.1.0 stay valid forever, and consumers
+# pinned to them don't have to chase a renamed ref. `workflow_dispatch`
+# is wired up as a manual smoke-run path that exercises the validator
 # without creating a Release (the `release` job's `if:` guard skips the
 # gh-release step when the trigger isn't a tag push).
 
 on:
   push:
-    tags: ["v*"]
+    # Two tag shapes fire this workflow:
+    #   - `v*`              — legacy/unscoped, kept for soft-cut compatibility
+    #                         so existing pinned consumers (e.g. v0.1.0) stay
+    #                         valid forever.
+    #   - `vocabularies/v*` — path-scoped, the new convention per the M02
+    #                         release-train discipline. New releases use this.
+    tags: ["v*", "vocabularies/v*"]
   workflow_dispatch:
 
 permissions:
@@ -60,7 +70,13 @@ jobs:
     # run gets the validator pass above but stops short of publishing —
     # useful for verifying the workflow itself is healthy without burning
     # a version number.
-    if: startsWith(github.ref, 'refs/tags/v')
+    #
+    # The guard matches `refs/tags/` (no trailing `v`) so it fires for
+    # both `v*` (refs/tags/v0.1.0) and `vocabularies/v*`
+    # (refs/tags/vocabularies/v0.1.1) tag shapes — the latter doesn't
+    # start with `refs/tags/v`, so a tighter guard would silently skip
+    # the prefixed shape.
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     permissions:
       contents: write  # required for softprops/action-gh-release

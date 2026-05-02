@@ -18,18 +18,36 @@ the source archive GitHub auto-attaches.
    PATCH bumps. A breaking shape change (renaming a top-level field,
    removing a tag) warrants a MAJOR bump.
 
-3. Tag and push:
+3. Tag and push. **The new convention is `vocabularies/vX.Y.Z`** —
+   the path-scoped shape per the M02 release-train discipline, so
+   tags from sibling repos (`verifier/v...`, `schema/v...`) don't
+   collide in this org's tag namespace:
 
-       git tag -a v0.1.0 -m "Release v0.1.0"
-       git push origin v0.1.0
+       git tag -a vocabularies/v0.2.0 -m "Release v0.2.0"
+       git push origin vocabularies/v0.2.0
 
-   Tags matching `v*-rc*`, `v*-beta*`, or `v*-alpha*` ship as
-   **prereleases**; everything else ships as a normal release.
+   The legacy unscoped shape `vX.Y.Z` still fires the workflow (soft
+   cut — see below), so you _can_ push `v0.2.0` and it'll work, but
+   new releases should use the prefixed shape.
+
+   Tags matching `*-rc*`, `*-beta*`, or `*-alpha*` (on either shape)
+   ship as **prereleases**; everything else ships as a normal release.
 
 4. Watch the workflow on GitHub Actions. On success, the tag appears
    on the Releases page with auto-generated notes (commits + merged
    PRs since the previous tag) and the source `.tar.gz` / `.zip`
    GitHub attaches.
+
+### Soft cut: why both tag shapes still work
+
+The release workflow accepts both `v*` and `vocabularies/v*` on
+purpose. The published `v0.1.0` tag (and any pinned consumer
+referencing it) stays valid forever — there's no flag day where
+existing pins break. New releases adopt the path-scoped convention
+without forcing a coordinated migration.
+
+See [`runlog-docs/13-release-trains.md`](https://github.com/runlog-org/runlog-docs/blob/main/13-release-trains.md)
+for the full convention rationale across all Runlog repos.
 
 ## Pinning from a consumer
 
