@@ -42,9 +42,9 @@ concurrency:
 # malicious release logic into this allow-list-data repo. Update by
 # bumping the SHA and the trailing comment together. SHAs below
 # resolve to:
-#   actions/checkout@v4              -> 34e114876b0b11c390a56381ad16ebd13914f8d5
-#   actions/setup-python@v5          -> a26af69be951a213d495a4c3e4e4022e16d87065
-#   softprops/action-gh-release@v2   -> 3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
+#   actions/checkout@v6              -> de0fac2e4500dabe0009e67214ff5f5447ce83dd
+#   actions/setup-python@v6          -> a309ff8b426b58ec0e2a45f0f869d46889d02405
+#   softprops/action-gh-release@v3   -> b4309332981a82ec1c5618f44dd2e27cc8bfbfda
 
 jobs:
   pre-flight:
@@ -54,8 +54,8 @@ jobs:
     # publishing a tag, discovering breakage downstream, and yanking it.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6
         with:
           python-version: "3.12"
           cache: pip
@@ -81,7 +81,7 @@ jobs:
     permissions:
       contents: write  # required for softprops/action-gh-release
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
         with:
           # Full history so generate_release_notes can compute the
           # commit/PR delta from the previous tag.
@@ -103,7 +103,7 @@ jobs:
           esac
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65  # v2
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda  # v3
         with:
           # `name` defaults to the tag, `tag_name` defaults to the pushed
           # ref — both implicit. No `files:` block: the source archive
