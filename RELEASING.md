@@ -46,8 +46,8 @@ referencing it) stays valid forever — there's no flag day where
 existing pins break. New releases adopt the path-scoped convention
 without forcing a coordinated migration.
 
-See `// TODO link runlog-docs/13-release-trains.md` for the full
-convention rationale across all Runlog repos.
+See [`runlog-docs/13-release-trains.md`](https://github.com/runlog-org/runlog-docs/blob/main/13-release-trains.md)
+for the full convention rationale across all Runlog repos.
 
 ## Pinning from a consumer
 
