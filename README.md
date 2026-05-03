@@ -5,6 +5,8 @@
 **Repo:** [`runlog-org/runlog-vocabularies`](https://github.com/runlog-org/runlog-vocabularies) — public, CC-BY-SA-4.0 (this is data, not code)
 **Role:** allow-list data consumed by the server's sanitizer and the verifier's pre-sign check. Default-deny — any token not in this registry needs an explicit `$LITERAL_N` declaration with a reason at submission time.
 
+> **About this project:** Runlog is a hobby side project by [Volker Otto](https://volkerotto.net) — not a commercial product today. A paid model is not ruled out for a later stage. See [About this project](https://runlog.org/#about) for the canonical framing.
+
 Registered stdlib identifiers, framework-public APIs, and protocol tokens per domain. The server's allow-list tokenizer and the verifier's pre-sign check both consume these files to decide whether a submission's tokens are permissible without a declared-literal wrapper.
 
 Community-PR'd. Each domain file documents its upstream source in the `version` field so the token list is reproducible — vocabularies curated by hand carry the `version` for human-review traceability, and any contributor-supplied extractor can re-run against that pinned upstream when an audit is needed. Placeholder values such as `"1"` are rejected by the producer-side validator — every file must declare a real upstream identifier (a release tag, RFC number, or dated API version).
