@@ -145,6 +145,9 @@ domains:
   - tag: cross-region-replication
     category: concept
     description: "Cross-region replication — strategy for asynchronously replicating data across geographically distributed regions."
+  - tag: csg
+    category: concept
+    description: "CSG (Constructive Solid Geometry) — modeling technique combining solid primitives via boolean operations; built-in node tree in Godot Engine."
   - tag: csharp
     category: language
     description: "C# — statically typed, multi-paradigm programming language by Microsoft on .NET."
@@ -202,6 +205,9 @@ domains:
   - tag: elixir
     category: language
     description: "Elixir — functional, concurrent language running on the Erlang VM (BEAM)."
+  - tag: enet
+    category: tooling
+    description: "ENet — reliable UDP networking library commonly used for low-latency game traffic."
   - tag: envoy
     category: tooling
     description: "Envoy — open-source edge and service proxy designed for cloud-native applications."
@@ -235,6 +241,9 @@ domains:
   - tag: gcp
     category: cloud
     description: "Google Cloud Platform — cloud computing services offered by Google."
+  - tag: gdscript
+    category: language
+    description: "GDScript — Godot Engine's built-in dynamically-typed scripting language."
   - tag: gem
     category: tooling
     description: "RubyGems gem — Ruby package management system and the packages it distributes."
@@ -253,6 +262,9 @@ domains:
   - tag: go
     category: language
     description: "Go (Golang) — statically typed, compiled language designed at Google for systems and server-side software."
+  - tag: godot
+    category: framework
+    description: "Godot Engine — open-source 2D/3D game engine scripted in GDScript or C#."
   - tag: goroutine
     category: concept
     description: "Goroutine — Go's lightweight concurrency primitive managed by the Go runtime scheduler."
@@ -403,6 +415,9 @@ domains:
   - tag: nestjs
     category: framework
     description: "NestJS — progressive Node.js framework for building scalable server-side applications with TypeScript."
+  - tag: netfox
+    category: framework
+    description: "Netfox — multiplayer networking framework for Godot Engine providing rollback / state sync."
   - tag: nextjs
     category: framework
     description: "Next.js — React framework for full-stack web applications with SSR, SSG, and the App Router."
@@ -672,6 +687,9 @@ domains:
   - tag: vue
     category: framework
     description: "Vue.js — progressive JavaScript framework for building user interfaces."
+  - tag: vulkan
+    category: tooling
+    description: "Vulkan — low-overhead, cross-platform graphics and compute API maintained by the Khronos Group."
   - tag: wal-mode
     category: concept
     description: "WAL mode — SQLite Write-Ahead Logging journal mode enabling concurrent reads and writes."
