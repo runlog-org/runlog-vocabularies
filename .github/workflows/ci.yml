@@ -18,10 +18,10 @@ concurrency:
 # parallel matrix jobs (rather than one job with sequential steps) gives
 # CI a separable failure surface: a broken `tokens:` shape doesn't mask a
 # YAML parse error in the run log, and Required Status Checks can target
-# each one independently. Re-parsing 76 small YAML files four times takes
+# each one independently. Re-parsing 76 small YAML files five times takes
 # <1s per job, which is a fine price for that separation.
 #
-# The four matrix entries correspond to the four failure modes we care
+# The five matrix entries correspond to the five failure modes we care
 # about:
 #   1. parse     — a malformed *.yaml anywhere in the repo.
 #   2. registry  — a vocab file whose declared tag is not in
@@ -36,6 +36,9 @@ concurrency:
 #                  collisions, credential markers, and unmatchable-token
 #                  reports are emitted as WARNINGS only and do not affect
 #                  the exit code.
+#   5. ordering  — every vocab token list must be in ASCII byte-order
+#                  (`LC_ALL=C sort` / Python's default `sorted()`). Keeps
+#                  PR diffs reviewable on single-token additions.
 #
 # Reverse-direction directionality (registry tag without a vocab file)
 # is intentionally NOT a CI failure here: the registry is much broader
@@ -52,9 +55,9 @@ concurrency:
 #
 # `${{ matrix.check }}` is interpolated into a `run:` step below. This
 # is safe (not a command-injection vector) because the value is sourced
-# from the literal matrix list — `parse | registry | shape | tokens` —
-# not from any untrusted github.event.* field. The validator further
-# restricts --check to a fixed argparse choices set.
+# from the literal matrix list — `parse | registry | shape | tokens |
+# ordering` — not from any untrusted github.event.* field. The
+# validator further restricts --check to a fixed argparse choices set.
 
 jobs:
   validate:
@@ -67,7 +70,7 @@ jobs:
       # by one across re-pushes.
       fail-fast: false
       matrix:
-        check: [parse, registry, shape, tokens]
+        check: [parse, registry, shape, tokens, ordering]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6
