@@ -19,8 +19,8 @@ Five hard checks plus two informational warnings:
    such enum check, so a typo like ``framewrok`` would otherwise land
    silently and weaken human review. The reverse direction — a registry
    tag lacking a vocabulary file — is intentionally NOT a CI failure:
-   the registry is broader than the vocabulary by design (227 tags vs.
-   70 files today; ``report_vocab_coverage()`` exposes the gap as a soft
+   the registry is broader than the vocabulary by design (233 tags vs.
+   76 files today; ``report_vocab_coverage()`` exposes the gap as a soft
    signal). Hard-failing on it would bottleneck registry growth on
    token-list curation.
 
@@ -77,7 +77,7 @@ Five hard checks plus two informational warnings:
 5. ``ordering``
    Every ``domains/*.yaml`` and ``protocols/*.yaml`` token list must be in
    ASCII byte-order (Python's default ``sorted()`` / ``LC_ALL=C sort``).
-   All 70 current files comply; this is a no-op on green main and a hard
+   All 76 current files comply; this is a no-op on green main and a hard
    stop on a drifting PR.
 
 Run locally:
@@ -524,7 +524,7 @@ def check_ordering(parsed: dict[pathlib.Path, Any]) -> int:
       This is independent of the host locale, so CI on any machine
       produces the same result as a contributor's local check.
 
-    * **No-op on green main, hard stop on a drifting PR** — all 70 current
+    * **No-op on green main, hard stop on a drifting PR** — all 76 current
       files are already ASCII-sorted (verified during the ordering audit).
       Adding this gate costs nothing on a clean tree and gives an
       immediate, precise failure message (index + token pair) when a
