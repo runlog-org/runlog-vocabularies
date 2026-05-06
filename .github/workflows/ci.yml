@@ -18,7 +18,7 @@ concurrency:
 # parallel matrix jobs (rather than one job with sequential steps) gives
 # CI a separable failure surface: a broken `tokens:` shape doesn't mask a
 # YAML parse error in the run log, and Required Status Checks can target
-# each one independently. Re-parsing 70 small YAML files four times takes
+# each one independently. Re-parsing 76 small YAML files four times takes
 # <1s per job, which is a fine price for that separation.
 #
 # The four matrix entries correspond to the four failure modes we care
@@ -39,7 +39,7 @@ concurrency:
 #
 # Reverse-direction directionality (registry tag without a vocab file)
 # is intentionally NOT a CI failure here: the registry is much broader
-# than the per-file vocab corpus by design (227 tags vs. 70 files
+# than the per-file vocab corpus by design (233 tags vs. 76 files
 # today). That gap is exposed by the consumer as a soft signal via
 # `runlog.sanitize.allowlist.report_vocab_coverage`, not a hard error.
 #
