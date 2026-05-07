@@ -1,5 +1,5 @@
 domain: godot
-description: Godot Engine built-in node classes, scene primitives, common engine methods, and signal names.
+description: Godot Engine built-in node classes, scene primitives, common engine methods, and signal names
 version: "Godot Engine 4.4 stable"
 tokens:
   - AcceptDialog

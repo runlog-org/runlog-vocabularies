@@ -1,5 +1,5 @@
 domain: netfox
-description: Netfox multiplayer networking framework for Godot — rollback / state-sync primitives.
+description: Netfox multiplayer networking framework for Godot — rollback / state-sync primitives
 version: "Netfox 1.35.3"
 tokens:
   - NetworkEvents

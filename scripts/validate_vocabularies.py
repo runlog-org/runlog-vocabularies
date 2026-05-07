@@ -31,7 +31,10 @@ Five hard checks plus two informational warnings:
    validation is out of scope for this repo — that belongs to the
    ``runlog-schema`` repo. Also gates the ``version:`` field: missing,
    empty, or placeholder value ``"1"`` is a hard failure (README §10
-   requires a real upstream-version identifier).
+   requires a real upstream-version identifier). The ``description:`` field
+   is also gated (must be a non-empty string) — the README's "four fields"
+   contract documents it as required, and a missing summary defeats the
+   human-review-of-new-tags promise the registry makes.
 
 4. ``token-hygiene``
    Per-file content gates added to enforce the README contract
@@ -337,6 +340,20 @@ def check_vocabulary_shape(parsed: dict[pathlib.Path, Any]) -> int:
                     f"({version_val!r}); README §10 requires a real "
                     f"upstream-version identifier (e.g. \"Python 3.13 stdlib\", "
                     f"\"RFC 8446 (TLS 1.3)\")"
+                )
+                failures += 1
+                continue
+            # Description gate (HARD FAIL). The README documents
+            # ``description:`` as one of the four required fields and uses
+            # it as the human-review summary when a new tag lands. A
+            # missing or empty value defeats that promise; we don't gate
+            # punctuation or length (those are PR-review judgement calls).
+            description_val = data.get("description")
+            if not isinstance(description_val, str) or not description_val.strip():
+                print(
+                    f"FAIL {_rel(path)}: 'description' is missing or empty "
+                    f"({description_val!r}); README documents it as a required "
+                    f"one-line human summary"
                 )
                 failures += 1
                 continue

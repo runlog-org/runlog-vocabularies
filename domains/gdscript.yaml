@@ -1,5 +1,5 @@
 domain: gdscript
-description: GDScript reserved words, built-in types, builtin functions, and global constants.
+description: GDScript reserved words, built-in types, builtin functions, and global constants
 version: "GDScript 2.0 (Godot Engine 4.4)"
 tokens:
   - AABB

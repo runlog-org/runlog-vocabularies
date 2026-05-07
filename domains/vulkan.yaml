@@ -1,5 +1,5 @@
 domain: vulkan
-description: Vulkan graphics and compute API — public function names, structure types, and enum constants.
+description: Vulkan graphics and compute API — public function names, structure types, and enum constants
 version: "Vulkan 1.3"
 tokens:
   - VK_ACCESS_COLOR_ATTACHMENT_READ_BIT

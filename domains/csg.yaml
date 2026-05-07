@@ -1,5 +1,5 @@
 domain: csg
-description: Constructive Solid Geometry primitives — Godot's CSG node tree for runtime boolean modeling.
+description: Constructive Solid Geometry primitives — Godot's CSG node tree for runtime boolean modeling
 version: "Godot Engine 4.4 stable"
 tokens:
   - CSGBox3D

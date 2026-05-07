@@ -1,5 +1,5 @@
 domain: enet
-description: ENet reliable UDP networking library — public C API symbols and constants.
+description: ENet reliable UDP networking library — public C API symbols and constants
 version: "ENet 1.3.18"
 tokens:
   - ENET_EVENT_TYPE_CONNECT
