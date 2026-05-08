@@ -8,7 +8,25 @@
 #   - category (str, required): one of: language | runtime | framework |
 #     database | cloud | tooling | protocol | saas | concept | other.
 #
-# Sorted alphabetically by tag.
+# Entries MUST be sorted alphabetically by tag. The validator's
+# registry-consistency check hard-fails on any out-of-order pair, the
+# same way ordering is enforced inside per-vocab token lists. This makes
+# every PR diff a single-line insertion at a predictable position.
+#
+# A tag whose category is `protocol` MUST have its vocabulary file under
+# `protocols/` (not `domains/`), and any non-protocol category MUST have
+# its file under `domains/`. The validator enforces this when a vocab
+# file exists; missing files are surfaced as a soft coverage gap, not
+# a failure (the registry is allowed to be broader than the curated
+# vocabulary set — see `report_vocab_coverage`).
+#
+# Top-level `version` below is the *registry schema* version (the shape
+# of this file), not an upstream-source identifier. Bump it only if the
+# entry shape changes (e.g. a new required field). It is intentionally
+# NOT a release version — releases are git-tag-driven (see RELEASING.md).
+# Per-vocab `version` fields under `domains/` and `protocols/` are a
+# *different concept*: each tracks the upstream source the token list
+# was derived from (e.g. "RFC 9110", "Python 3.13 stdlib").
 
 version: "1"
 

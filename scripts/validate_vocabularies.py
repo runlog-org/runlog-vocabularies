@@ -4,7 +4,7 @@
 Mirrors what the consumer (runlog server) loads at startup so that breakage
 is caught here, in a CI gate on this repo, before it can poison production.
 
-Five hard checks plus two informational warnings:
+Five hard checks plus informational warnings and a soft coverage report:
 
 1. ``yaml-parse``
    Every ``*.yaml`` file in the repo must parse via ``yaml.safe_load``.
@@ -17,7 +17,14 @@ Five hard checks plus two informational warnings:
    registry we also gate every entry's ``category:`` against
    ``ALLOWED_CATEGORIES`` (see top of file) — the consumer side does no
    such enum check, so a typo like ``framewrok`` would otherwise land
-   silently and weaken human review. The reverse direction — a registry
+   silently and weaken human review. The registry's own entry list is
+   also checked for alphabetical ordering by ``tag`` (the header comment
+   in ``scope-registry.yaml`` mandates this; the gate enforces it the
+   same way per-vocab token ordering is enforced — single-line PR diffs
+   at a predictable position). Finally, when both sides are present, the
+   ``category`` field must agree with the directory the vocab file
+   lives in: ``category: protocol`` ⇒ ``protocols/<tag>.yaml``, anything
+   else ⇒ ``domains/<tag>.yaml``. The reverse direction — a registry
    tag lacking a vocabulary file — is intentionally NOT a CI failure:
    the registry is broader than the vocabulary by design (233 tags vs.
    76 files today; ``report_vocab_coverage()`` exposes the gap as a soft
@@ -111,7 +118,7 @@ import collections
 import pathlib
 import re
 import sys
-from typing import Any
+from typing import Any, Iterator
 
 import yaml
 
@@ -171,10 +178,60 @@ ALLOWED_CATEGORIES = frozenset({
     "other",
 })
 
+# Schema version of ``scope-registry.yaml`` — the shape of the file, not
+# an upstream-tracker identifier. Bump in lockstep with a header-comment
+# update on the registry when introducing a new required field. This is
+# distinct from per-vocab ``version`` fields (those track the upstream
+# source the token list was derived from). The registry-consistency
+# gate fails if the on-disk value drifts from this constant.
+EXPECTED_REGISTRY_SCHEMA_VERSION = "1"
+
 
 def _rel(p: pathlib.Path) -> str:
     """Repo-relative path string for stable, grep-able log output."""
     return str(p.relative_to(REPO_ROOT))
+
+
+def _iter_vocab_files(
+    parsed: dict[pathlib.Path, Any],
+) -> "Iterator[tuple[pathlib.Path, dict[str, Any], list[Any]]]":
+    """Iterate vocab files that are minimally well-shaped for content gates.
+
+    Yields ``(path, data, tokens)`` for every ``domains/*.yaml`` and
+    ``protocols/*.yaml`` whose top-level is a mapping AND whose
+    ``tokens`` is a list — the two preconditions every content-level
+    gate (token-hygiene, ordering, future ones) needs. Files failing
+    either precondition emit a single ``SKIP`` line per gate so an
+    operator running ``--check ordering`` in isolation still sees that
+    a file was bypassed (instead of the previous silent-skip behaviour,
+    which made the shape gate a hidden ordering dependency).
+
+    Centralising this loop also collapses three near-identical
+    "for vocab_dir in ... for path in sorted(...glob)" scaffolds into
+    one — the gates now read as content rules, not directory walkers.
+    """
+    for vocab_dir in (DOMAINS_DIR, PROTOCOLS_DIR):
+        for path in sorted(vocab_dir.glob("*.yaml")):
+            data = parsed.get(path)
+            if not isinstance(data, dict):
+                # Either the parse failed (yaml-parse already counted it)
+                # or the top-level isn't a mapping (vocabulary-shape will
+                # flag it on its own pass). Surface the bypass so a narrow
+                # --check run still tells the operator the file was not
+                # examined.
+                print(
+                    f"SKIP {_rel(path)}: top-level is not a mapping "
+                    f"(see vocabulary-shape / yaml-parse)"
+                )
+                continue
+            tokens = data.get("tokens")
+            if not isinstance(tokens, list):
+                print(
+                    f"SKIP {_rel(path)}: 'tokens' is not a list "
+                    f"(see vocabulary-shape)"
+                )
+                continue
+            yield path, data, tokens
 
 
 def check_yaml_parse() -> tuple[int, dict[pathlib.Path, Any]]:
@@ -197,12 +254,22 @@ def check_yaml_parse() -> tuple[int, dict[pathlib.Path, Any]]:
     return failures, parsed
 
 
-def _registry_tags(registry: Any, registry_path: pathlib.Path) -> set[str]:
-    """Extract the set of tags from a parsed scope-registry.yaml.
+def _registry_entries(
+    registry: Any, registry_path: pathlib.Path
+) -> list[dict[str, str]]:
+    """Extract the full registry-entry list from a parsed scope-registry.yaml.
 
     Mirrors the validation in ``runlog.sanitize.scope.load_registry`` — same
     structural requirements, same lowercasing, so a pass here implies a pass
-    in the consumer.
+    in the consumer. Returns a list of normalised ``{tag, category}`` dicts
+    (lowercased) so callers can run additional structural checks (ordering,
+    category-vs-directory) without re-walking the parsed structure.
+
+    Also gates the top-level ``version`` field against
+    ``EXPECTED_REGISTRY_SCHEMA_VERSION`` — that field is the *registry
+    schema* version (the shape of the file), not a release identifier, and
+    drift here means downstream consumers might be reading an entry shape
+    they don't understand.
     """
     if not isinstance(registry, dict):
         raise RuntimeError(
@@ -212,12 +279,19 @@ def _registry_tags(registry: Any, registry_path: pathlib.Path) -> set[str]:
         raise RuntimeError(
             f"{_rel(registry_path)}: missing required top-level key 'version'"
         )
+    if str(registry["version"]) != EXPECTED_REGISTRY_SCHEMA_VERSION:
+        raise RuntimeError(
+            f"{_rel(registry_path)}: registry schema version "
+            f"{str(registry['version'])!r} does not match validator's "
+            f"expected {EXPECTED_REGISTRY_SCHEMA_VERSION!r}; bump both "
+            f"together when the entry shape changes"
+        )
     domains_raw = registry.get("domains")
     if not isinstance(domains_raw, list):
         raise RuntimeError(
             f"{_rel(registry_path)}: 'domains' must be a list"
         )
-    tags: set[str] = set()
+    entries: list[dict[str, str]] = []
     for i, item in enumerate(domains_raw):
         if not isinstance(item, dict):
             raise RuntimeError(
@@ -236,8 +310,11 @@ def _registry_tags(registry: Any, registry_path: pathlib.Path) -> set[str]:
                 f"category={category!r} not in allowed set "
                 f"{sorted(ALLOWED_CATEGORIES)}"
             )
-        tags.add(str(item["tag"]).lower())
-    return tags
+        entries.append({
+            "tag": str(item["tag"]).lower(),
+            "category": category,
+        })
+    return entries
 
 
 def check_registry_consistency(parsed: dict[pathlib.Path, Any]) -> int:
@@ -252,19 +329,59 @@ def check_registry_consistency(parsed: dict[pathlib.Path, Any]) -> int:
     the filename stem, that is a hard failure: the README mandates they
     agree, and a silent mismatch would attach tokens to the wrong scope tag
     at runtime.
+
+    This gate also enforces three structural invariants on the registry
+    itself:
+
+    * **Schema version** — top-level ``version`` field is the registry
+      schema version (shape of the file) and must equal
+      ``EXPECTED_REGISTRY_SCHEMA_VERSION``. See ``_registry_entries``.
+
+    * **Alphabetical ordering** — entries must be sorted by ``tag``
+      (the file's header comment mandates this; we enforce it the same
+      way per-vocab token ordering is enforced).
+
+    * **Category ↔ directory consistency** — when a vocab file exists
+      for a registered tag, its directory must agree with the entry's
+      category: ``protocol`` ⇒ ``protocols/``, anything else ⇒
+      ``domains/``. A mismatch would silently attach the wrong vocab
+      file to the wrong scope at consumer load time.
     """
     print("\n=== registry-consistency ===")
     if REGISTRY_PATH not in parsed:
         print(f"FAIL {_rel(REGISTRY_PATH)}: not parsed (earlier yaml error)")
         return 1
     try:
-        tags = _registry_tags(parsed[REGISTRY_PATH], REGISTRY_PATH)
+        entries = _registry_entries(parsed[REGISTRY_PATH], REGISTRY_PATH)
     except RuntimeError as exc:
         print(f"FAIL {exc}")
         return 1
+    tags = {e["tag"] for e in entries}
+    category_by_tag = {e["tag"]: e["category"] for e in entries}
     print(f"registry: {len(tags)} tags loaded")
 
     failures = 0
+
+    # Registry ordering check. The header comment mandates alphabetical
+    # ordering by tag; we enforce it so PR diffs read as a single-line
+    # insertion at the right spot. Report the first divergence only — the
+    # operator fixes one and re-runs to surface the next, same protocol as
+    # the per-vocab token ordering gate.
+    tag_seq = [e["tag"] for e in entries]
+    expected = sorted(tag_seq)
+    if tag_seq != expected:
+        for i, (got, want) in enumerate(zip(tag_seq, expected)):
+            if got != want:
+                print(
+                    f"FAIL {_rel(REGISTRY_PATH)}: registry entries not "
+                    f"sorted alphabetically by tag; first divergence at "
+                    f"index {i} (got {got!r}, expected {want!r})"
+                )
+                break
+        failures += 1
+    else:
+        print(f"PASS {_rel(REGISTRY_PATH)}: entries sorted by tag")
+
     for vocab_dir, declared_key in ((DOMAINS_DIR, "domain"), (PROTOCOLS_DIR, "protocol")):
         for path in sorted(vocab_dir.glob("*.yaml")):
             data = parsed.get(path)
@@ -294,9 +411,57 @@ def check_registry_consistency(parsed: dict[pathlib.Path, Any]) -> int:
                     f"is not registered in scope-registry.yaml"
                 )
                 failures += 1
+                continue
+
+            # Category ↔ directory consistency. The registry's category
+            # field decides which directory the vocab file belongs in; a
+            # mismatch would silently load the wrong shape at runtime.
+            expected_dir = PROTOCOLS_DIR if category_by_tag[tag] == "protocol" else DOMAINS_DIR
+            if vocab_dir != expected_dir:
+                print(
+                    f"FAIL {_rel(path)}: registry category="
+                    f"{category_by_tag[tag]!r} expects vocab file under "
+                    f"{_rel(expected_dir)}/, found under {_rel(vocab_dir)}/"
+                )
+                failures += 1
             else:
                 print(f"PASS {_rel(path)}: {declared_key}={tag!r}")
     return failures
+
+
+def report_vocab_coverage(parsed: dict[pathlib.Path, Any]) -> None:
+    """Soft signal — registry tags lacking a vocabulary file.
+
+    The registry is intentionally broader than the curated vocabulary set
+    (233 tags vs. 76 files at time of writing): a tag that's accepted by
+    the scope rule doesn't yet need a token allow-list. This report
+    surfaces the gap as an informational summary so contributors can see
+    where curation effort would have impact, without making registry
+    growth a CI bottleneck.
+
+    Never affects the exit code; runs alongside ``--check all`` and
+    ``--check registry``. Skipped silently if the registry didn't parse
+    (the registry-consistency gate has already reported that).
+    """
+    print("\n--- vocab coverage ---")
+    if REGISTRY_PATH not in parsed:
+        print("skipped: registry did not parse")
+        return
+    try:
+        entries = _registry_entries(parsed[REGISTRY_PATH], REGISTRY_PATH)
+    except RuntimeError:
+        print("skipped: registry failed structural checks")
+        return
+    reg_tags = {e["tag"] for e in entries}
+    files = {p.stem.lower() for p in DOMAINS_DIR.glob("*.yaml")}
+    files |= {p.stem.lower() for p in PROTOCOLS_DIR.glob("*.yaml")}
+    covered = reg_tags & files
+    gap = reg_tags - files
+    pct = (len(covered) * 100 // len(reg_tags)) if reg_tags else 0
+    print(
+        f"vocab files cover {len(covered)}/{len(reg_tags)} registry tags "
+        f"({pct}%); {len(gap)} tag(s) without a vocabulary file"
+    )
 
 
 def check_vocabulary_shape(parsed: dict[pathlib.Path, Any]) -> int:
@@ -386,87 +551,78 @@ def check_token_hygiene(parsed: dict[pathlib.Path, Any], verbose: bool = False) 
     # Each entry is (file_rel, token) for stable ordering.
     unmatchable: list[tuple[str, str]] = []
 
-    for vocab_dir in (DOMAINS_DIR, PROTOCOLS_DIR):
-        for path in sorted(vocab_dir.glob("*.yaml")):
-            data = parsed.get(path)
-            if not isinstance(data, dict):
-                # Shape check already reported this; skip to avoid noise.
-                continue
-            tokens = data.get("tokens")
-            if not isinstance(tokens, list):
-                continue
+    for path, _data, tokens in _iter_vocab_files(parsed):
+        seen_lower: dict[str, str] = {}
+        file_failed = False
+        file_warned = False
+        for raw in tokens:
+            # Coerce to string the same way the consumer does in
+            # ``allowlist.load_vocabulary``: ``str(t).lower()``. We
+            # check the original (un-lowered) bytes for ASCII so a
+            # YAML int or bool doesn't sneak through as a string.
+            token = str(raw)
+            lowered = token.lower()
 
-            seen_lower: dict[str, str] = {}
-            file_failed = False
-            file_warned = False
-            for raw in tokens:
-                # Coerce to string the same way the consumer does in
-                # ``allowlist.load_vocabulary``: ``str(t).lower()``. We
-                # check the original (un-lowered) bytes for ASCII so a
-                # YAML int or bool doesn't sneak through as a string.
-                token = str(raw)
-                lowered = token.lower()
-
-                # ASCII gate (HARD FAIL). encode('ascii') raises on any
-                # non-ASCII byte; we catch that and keep going so we
-                # report every offender in one CI run instead of one at
-                # a time.
-                try:
-                    token.encode("ascii")
-                except UnicodeEncodeError as exc:
-                    print(
-                        f"FAIL {_rel(path)}: non-ASCII byte in token "
-                        f"{token!r} at position {exc.start}"
-                    )
-                    failures += 1
-                    file_failed = True
-
-                # Duplicate gate (HARD FAIL). Compare lowercased so
-                # ``Region`` and ``region`` collide (the consumer
-                # lower-cases anyway).
-                if lowered in seen_lower:
-                    print(
-                        f"FAIL {_rel(path)}: duplicate token {token!r} "
-                        f"(prior form {seen_lower[lowered]!r})"
-                    )
-                    failures += 1
-                    file_failed = True
-                else:
-                    seen_lower[lowered] = token
-
-                # Credential-marker scan (WARNING). Substring match on
-                # the lowercased token; coarse but enough to catch the
-                # obvious paste-an-env-dump mistake.
-                for marker in CREDENTIAL_MARKERS:
-                    if marker in lowered:
-                        print(
-                            f"WARN {_rel(path)}: token {token!r} contains "
-                            f"credential marker {marker!r}"
-                        )
-                        warnings += 1
-                        file_warned = True
-                        break
-
-                # Unmatchable-token report (WARNING). Tokens the
-                # consumer regex won't match are dead at runtime; we
-                # keep them as a forward-compat reservation but make
-                # the dead pile visible. Collected here; emitted below
-                # as a summary line (or per-token with --verbose).
-                if not CONSUMER_TOKEN_RE.match(token):
-                    unmatchable.append((_rel(path), token))
-                    file_warned = True
-
-                # Track for the cross-file collision pass below. We
-                # record every (lowered, file) pair; dedup happens at
-                # report time.
-                token_files[lowered].append(_rel(path))
-
-            if not file_failed:
-                marker = " (with warnings)" if file_warned else ""
+            # ASCII gate (HARD FAIL). encode('ascii') raises on any
+            # non-ASCII byte; we catch that and keep going so we
+            # report every offender in one CI run instead of one at
+            # a time.
+            try:
+                token.encode("ascii")
+            except UnicodeEncodeError as exc:
                 print(
-                    f"PASS {_rel(path)}: tokens=[{len(tokens)}], "
-                    f"unique=[{len(seen_lower)}]{marker}"
+                    f"FAIL {_rel(path)}: non-ASCII byte in token "
+                    f"{token!r} at position {exc.start}"
                 )
+                failures += 1
+                file_failed = True
+
+            # Duplicate gate (HARD FAIL). Compare lowercased so
+            # ``Region`` and ``region`` collide (the consumer
+            # lower-cases anyway).
+            if lowered in seen_lower:
+                print(
+                    f"FAIL {_rel(path)}: duplicate token {token!r} "
+                    f"(prior form {seen_lower[lowered]!r})"
+                )
+                failures += 1
+                file_failed = True
+            else:
+                seen_lower[lowered] = token
+
+            # Credential-marker scan (WARNING). Substring match on
+            # the lowercased token; coarse but enough to catch the
+            # obvious paste-an-env-dump mistake.
+            for marker in CREDENTIAL_MARKERS:
+                if marker in lowered:
+                    print(
+                        f"WARN {_rel(path)}: token {token!r} contains "
+                        f"credential marker {marker!r}"
+                    )
+                    warnings += 1
+                    file_warned = True
+                    break
+
+            # Unmatchable-token report (WARNING). Tokens the
+            # consumer regex won't match are dead at runtime; we
+            # keep them as a forward-compat reservation but make
+            # the dead pile visible. Collected here; emitted below
+            # as a summary line (or per-token with --verbose).
+            if not CONSUMER_TOKEN_RE.match(token):
+                unmatchable.append((_rel(path), token))
+                file_warned = True
+
+            # Track for the cross-file collision pass below. We
+            # record every (lowered, file) pair; dedup happens at
+            # report time.
+            token_files[lowered].append(_rel(path))
+
+        if not file_failed:
+            marker = " (with warnings)" if file_warned else ""
+            print(
+                f"PASS {_rel(path)}: tokens=[{len(tokens)}], "
+                f"unique=[{len(seen_lower)}]{marker}"
+            )
 
     # Unmatchable-token summary / verbose listing.
     if unmatchable:
@@ -549,34 +705,25 @@ def check_ordering(parsed: dict[pathlib.Path, Any]) -> int:
     """
     print("\n=== ordering ===")
     failures = 0
-    for vocab_dir in (DOMAINS_DIR, PROTOCOLS_DIR):
-        for path in sorted(vocab_dir.glob("*.yaml")):
-            data = parsed.get(path)
-            if not isinstance(data, dict):
-                # Shape check already flagged this; skip to avoid noise.
-                continue
-            tokens = data.get("tokens")
-            if not isinstance(tokens, list):
-                # Shape check already flagged this; skip to avoid noise.
-                continue
-            str_tokens = [str(t) for t in tokens]
-            expected = sorted(str_tokens)
-            if str_tokens != expected:
-                # Find the first divergence for a precise error message.
-                for i, (got, want) in enumerate(zip(str_tokens, expected)):
-                    if got != want:
-                        print(
-                            f"FAIL {_rel(path)}: tokens not in ASCII "
-                            f"byte-order; first divergence at index {i} "
-                            f"(got {got!r}, expected {want!r})"
-                        )
-                        break
-                failures += 1
-            else:
-                print(
-                    f"PASS {_rel(path)}: tokens=[{len(str_tokens)}] "
-                    f"ASCII-sorted"
-                )
+    for path, _data, tokens in _iter_vocab_files(parsed):
+        str_tokens = [str(t) for t in tokens]
+        expected = sorted(str_tokens)
+        if str_tokens != expected:
+            # Find the first divergence for a precise error message.
+            for i, (got, want) in enumerate(zip(str_tokens, expected)):
+                if got != want:
+                    print(
+                        f"FAIL {_rel(path)}: tokens not in ASCII "
+                        f"byte-order; first divergence at index {i} "
+                        f"(got {got!r}, expected {want!r})"
+                    )
+                    break
+            failures += 1
+        else:
+            print(
+                f"PASS {_rel(path)}: tokens=[{len(str_tokens)}] "
+                f"ASCII-sorted"
+            )
     return failures
 
 
@@ -616,6 +763,10 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.check in ("all", "registry"):
         registry_failures = check_registry_consistency(parsed)
+        # Soft signal — never affects the exit code. Co-runs with the
+        # registry gate because that's where the operator's attention
+        # already is when curating registry growth.
+        report_vocab_coverage(parsed)
     if args.check in ("all", "shape"):
         shape_failures = check_vocabulary_shape(parsed)
     if args.check in ("all", "tokens"):
