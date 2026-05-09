@@ -206,9 +206,16 @@ def _iter_vocab_files(
     a file was bypassed (instead of the previous silent-skip behaviour,
     which made the shape gate a hidden ordering dependency).
 
-    Centralising this loop also collapses three near-identical
-    "for vocab_dir in ... for path in sorted(...glob)" scaffolds into
-    one — the gates now read as content rules, not directory walkers.
+    Centralising this loop also collapses two near-identical
+    "for vocab_dir in ... for path in sorted(...glob)" scaffolds (the
+    token-hygiene and ordering gates) into one — those gates now read
+    as content rules, not directory walkers. ``check_vocabulary_shape``
+    and ``check_registry_consistency`` still use the raw double-loop
+    on purpose: the former IS the gate that establishes the
+    mapping-and-tokens-list precondition this helper relies on, and
+    the latter operates on the ``domain``/``protocol`` field, not
+    ``tokens``, so it doesn't need (and can't safely require) a
+    list-typed tokens field.
     """
     for vocab_dir in (DOMAINS_DIR, PROTOCOLS_DIR):
         for path in sorted(vocab_dir.glob("*.yaml")):
