@@ -735,10 +735,29 @@ def check_ordering(parsed: dict[pathlib.Path, Any]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Single dispatch table for the narrowable checks. Each entry maps the
+    # ``--check`` selector to the function that runs the gate against the
+    # already-parsed YAML map. ``parse`` is special-cased outside this
+    # table because it both *produces* the parsed map and is itself a gate
+    # — every other entry consumes its output. ``registry`` is also
+    # responsible for emitting the soft ``report_vocab_coverage`` summary
+    # right after; that's wrapped in a small lambda so the table stays
+    # the single source of truth for "which gates exist" (mirrored by
+    # argparse's ``choices`` below).
+    gates = {
+        "registry": lambda parsed, verbose: (
+            check_registry_consistency(parsed),
+            report_vocab_coverage(parsed),
+        )[0],
+        "shape": lambda parsed, verbose: check_vocabulary_shape(parsed),
+        "tokens": lambda parsed, verbose: check_token_hygiene(parsed, verbose=verbose),
+        "ordering": lambda parsed, verbose: check_ordering(parsed),
+    }
+
     parser = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
     parser.add_argument(
         "--check",
-        choices=("all", "parse", "registry", "shape", "tokens", "ordering"),
+        choices=("all", "parse", *gates.keys()),
         default="all",
         help="Which check to run (default: all).",
     )
@@ -763,45 +782,25 @@ def main(argv: list[str] | None = None) -> int:
     # top-level signal; registry/shape/tokens get to add their own
     # failures on top.
 
-    registry_failures = 0
-    shape_failures = 0
-    token_failures = 0
-    ordering_failures = 0
+    # Run every gate the selector covers; record per-gate failures keyed
+    # by the same selector strings argparse accepts. ``--check parse``
+    # leaves ``failures`` empty and reports the parse count alone.
+    failures: dict[str, int] = {name: 0 for name in gates}
+    for name, run_gate in gates.items():
+        if args.check in ("all", name):
+            failures[name] = run_gate(parsed, args.verbose)
 
-    if args.check in ("all", "registry"):
-        registry_failures = check_registry_consistency(parsed)
-        # Soft signal — never affects the exit code. Co-runs with the
-        # registry gate because that's where the operator's attention
-        # already is when curating registry growth.
-        report_vocab_coverage(parsed)
-    if args.check in ("all", "shape"):
-        shape_failures = check_vocabulary_shape(parsed)
-    if args.check in ("all", "tokens"):
-        token_failures = check_token_hygiene(parsed, verbose=args.verbose)
-    if args.check in ("all", "ordering"):
-        ordering_failures = check_ordering(parsed)
-
-    if args.check == "parse":
+    if args.check == "all":
+        total = parse_failures + sum(failures.values())
+    elif args.check == "parse":
         total = parse_failures
-    elif args.check == "registry":
-        total = registry_failures
-    elif args.check == "shape":
-        total = shape_failures
-    elif args.check == "tokens":
-        total = token_failures
-    elif args.check == "ordering":
-        total = ordering_failures
     else:
-        total = (
-            parse_failures + registry_failures + shape_failures
-            + token_failures + ordering_failures
-        )
+        total = failures[args.check]
 
+    counts = " ".join(f"{name}={failures[name]}" for name in gates)
     print(
         f"\nsummary: check={args.check} parse={parse_failures} "
-        f"registry={registry_failures} shape={shape_failures} "
-        f"tokens={token_failures} ordering={ordering_failures} "
-        f"total_failed={total}"
+        f"{counts} total_failed={total}"
     )
     return 0 if total == 0 else 1
 
