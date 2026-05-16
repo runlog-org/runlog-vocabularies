@@ -46,4 +46,4 @@ A new domain needs a single YAML file at `domains/<tag>.yaml` (or `protocols/<ta
 
 ## Releases
 
-Releases are tag-based: a maintainer pushes `vX.Y.Z` and GitHub Actions creates a Release with auto-generated notes. Downstream consumers should pin to a tag rather than tracking `main`. See [`RELEASING.md`](./RELEASING.md) for the full process.
+Releases are tag-based: a maintainer pushes a path-scoped `vocabularies/vX.Y.Z` tag (the M02 release-train convention) and GitHub Actions creates a Release with auto-generated notes. The legacy unscoped `vX.Y.Z` shape still works as a soft cut so existing pins stay valid. Downstream consumers should pin to a tag rather than tracking `main`. See [`RELEASING.md`](./RELEASING.md) for the full process.
